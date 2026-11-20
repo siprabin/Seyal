@@ -34,11 +34,12 @@ $taskOption = function ($t) use ($selTask) {
       <div class="display-6 fw-semibold mb-1" id="clock"><?= e(date('h:i A')) ?></div>
       <p class="text-muted mb-4"><?= e(fmt_date(today())) ?>
         <?php if (!$workingDay): ?><br><span class="badge bg-light text-dark border"><?= e($holiday ? t('Holiday: :name', ['name' => $holiday ?: '']) : t('Not a working day')) ?></span><?php endif; ?></p>
-      <form method="post" action="<?= e(url('myday', ['a' => 'start'])) ?>">
+      <form method="post" action="<?= e(url('myday', ['a' => 'start'])) ?>"<?= location_form_attr() ?>>
         <?= csrf_field() ?>
         <button class="btn btn-success btn-lg px-5"><i class="bi bi-play-circle"></i> <?= e(t('Start Day')) ?></button>
       </form>
       <p class="small text-muted mt-3 mb-0"><?= e(t('Click when you begin work. Your start time is recorded.')) ?></p>
+      <?php if (location_mode() !== 'off'): ?><p class="small text-muted mb-0"><i class="bi bi-geo-alt"></i> <?= e(t('Your location is recorded when you start and close your day.')) ?></p><?php endif; ?>
     </div>
   </div>
 

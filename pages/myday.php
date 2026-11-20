@@ -82,7 +82,12 @@ switch ($action) {
         if ($existing && in_array($existing['status'], ['closed', 'auto_closed'], true)) {
             flash('info', t('Today is already closed.'));
         } elseif (!$existing || $existing['status'] !== 'open') {
-            $day = start_day(uid());
+            $location = location_from_request('start');
+            if (location_missing($location, 'start')) {
+                flash('danger', t('Your location is needed to start or close your day. Allow location access in your browser and try again.'));
+                back(url('myday'));
+            }
+            $day = start_day(uid(), $location);
             audit('workday', (int)$day['id'], $me['name'] . ' — ' . today(), 'start_day');
             flash('success', t('Good morning! Your day started at :time.', ['time' => fmt_time($day['started_at'])]));
         }
@@ -181,7 +186,13 @@ switch ($action) {
                 flash('danger', t('You have not logged any work. Add at least one entry, or write a note explaining why.'));
                 redirect(url('myday', ['a' => 'close', 'date' => $day['work_date']]));
             }
-            $warnings = close_day($day, uid(), 'closed', $note !== '' ? $note : null);
+            $location = location_from_request('close');
+            if (location_missing($location, 'close')) {
+                flash('danger', t('Your location is needed to start or close your day. Allow location access in your browser and try again.'));
+                remember_old();
+                redirect(url('myday', ['a' => 'close', 'date' => $day['work_date']]));
+            }
+            $warnings = close_day($day, uid(), 'closed', $note !== '' ? $note : null, null, $location);
             flash('success', t('Your day is closed. Thank you!'));
             foreach ($warnings as $w) {
                 flash('warning', $w);

@@ -87,7 +87,7 @@ $navBlock = function (array $items, ?string $heading = null) use ($current) {
       <div class="ms-auto d-flex align-items-center gap-2">
         <?php if (!$updatePending && daylog_enabled_for($u)): ?>
           <?php if (!$myDay || in_array($myDay['status'], ['missed'], true)): ?>
-            <form method="post" action="<?= e(url('myday', ['a' => 'start'])) ?>" class="m-0">
+            <form method="post" action="<?= e(url('myday', ['a' => 'start'])) ?>" class="m-0"<?= location_form_attr() ?>>
               <?= csrf_field() ?><button class="btn btn-success btn-sm text-nowrap"><i class="bi bi-play-circle"></i><span class="d-none d-sm-inline"> <?= e(t('Start Day')) ?></span></button>
             </form>
           <?php elseif ($myDay['status'] === 'open'): ?>
@@ -136,6 +136,8 @@ $navBlock = function (array $items, ?string $heading = null) use ($current) {
 <script>window.APP = {csrf: <?= json_encode(csrf_token()) ?>, t: <?= json_encode([
     'confirm' => t('Are you sure?'),
     'saveFailed' => t('Could not save. The page will reload.'),
+    'locating' => t('Getting your location…'),
+    'locationRequired' => t('Your location is needed to start or close your day. Allow location access in your browser and try again.'),
 ], JSON_UNESCAPED_UNICODE) ?>};</script>
 <script src="<?= asset('js/app.js') ?>"></script>
 <?php if (!empty($extraScripts)) foreach ($extraScripts as $s): ?>

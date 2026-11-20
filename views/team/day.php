@@ -15,8 +15,8 @@
   <div class="col-lg-8">
     <div class="card mb-3"><div class="card-body small d-flex flex-wrap gap-4">
       <span><span class="text-muted"><?= e(t('Started')) ?>:</span> <strong><?= e(fmt_time($day['started_at'])) ?></strong>
-        <?php if (is_late_start($day)): ?><span class="badge bg-warning text-dark"><?= e(t('Late start')) ?></span><?php endif; ?></span>
-      <span><span class="text-muted"><?= e(t('Closed')) ?>:</span> <strong><?= e(fmt_time($day['closed_at'])) ?></strong></span>
+        <?php if (is_late_start($day)): ?><span class="badge bg-warning text-dark"><?= e(t('Late start')) ?></span><?php endif; ?><?= location_pin($day, 'start', true) ?></span>
+      <span><span class="text-muted"><?= e(t('Closed')) ?>:</span> <strong><?= e(fmt_time($day['closed_at'])) ?></strong><?= location_pin($day, 'close', true) ?></span>
       <?php if ($day['closed_by_name'] && $day['closed_by'] != $day['user_id']): ?><span class="text-muted"><?= e(t('Closed by :name', ['name' => $day['closed_by_name']])) ?></span><?php endif; ?>
       <?php if ($day['reopened_count']): ?><span class="text-muted"><?= e(t('Reopened :n time(s)', ['n' => $day['reopened_count']])) ?></span><?php endif; ?>
     </div></div>

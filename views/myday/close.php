@@ -18,7 +18,7 @@
     <?php endif; ?>
   </div>
 </div>
-<form method="post" action="<?= e(url('myday', ['a' => 'close', 'date' => $day['work_date']])) ?>" class="card">
+<form method="post" action="<?= e(url('myday', ['a' => 'close', 'date' => $day['work_date']])) ?>" class="card"<?= location_form_attr() ?>>
   <?= csrf_field() ?>
   <div class="card-body">
     <label class="form-label" for="note"><?= e(t('Note for your manager (optional)')) ?><?= $entries ? '' : ' <span class="text-danger">*</span>' ?></label>
@@ -27,5 +27,6 @@
   <div class="card-footer bg-white d-flex flex-wrap gap-2">
     <button class="btn btn-danger"><i class="bi bi-lock"></i> <?= e(t('Confirm and close my day')) ?></button>
     <a href="<?= e(url('myday', ['date' => $day['work_date']])) ?>" class="btn btn-outline-secondary"><?= e(t('Back — add more work')) ?></a>
+    <?php if (location_mode() !== 'off'): ?><span class="small text-muted align-self-center ms-auto"><i class="bi bi-geo-alt"></i> <?= e(t('Your location is recorded when you start and close your day.')) ?></span><?php endif; ?>
   </div>
 </form>

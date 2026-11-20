@@ -51,6 +51,69 @@
   }
 })();
 
+/*
+ * Location at Start Day / Close Day: <form data-location="ask|required">.
+ * Asks the browser for the position, adds it as hidden fields, then submits. With "ask" the form is sent
+ * even when the person blocks location (the status is recorded); with "required" it is not.
+ * Browsers only allow location on HTTPS pages (and on localhost).
+ */
+(function () {
+  'use strict';
+  var t = (window.APP && window.APP.t) || {};
+
+  function field(form, name, value) {
+    var input = form.querySelector('input[name="' + name + '"]');
+    if (!input) {
+      input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = name;
+      form.appendChild(input);
+    }
+    input.value = value;
+  }
+
+  document.querySelectorAll('form[data-location]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      if (form.getAttribute('data-loc-done')) return;   // second pass: really submit
+      e.preventDefault();
+      var required = form.getAttribute('data-location') === 'required';
+      var btn = form.querySelector('button:not([type]), button[type="submit"]');
+      var btnHtml = btn ? btn.innerHTML : '';
+
+      function send(status) {
+        field(form, 'loc_status', status);
+        form.setAttribute('data-loc-done', '1');
+        form.submit();
+      }
+      function fail(status) {
+        if (required) {
+          if (btn) { btn.disabled = false; btn.innerHTML = btnHtml; }
+          window.alert(t.locationRequired || 'Location is required.');
+          return;
+        }
+        send(status);
+      }
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> ' + (t.locating || '');
+      }
+      if (!navigator.geolocation || window.isSecureContext === false) {
+        fail('unsupported');
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        field(form, 'loc_lat', pos.coords.latitude);
+        field(form, 'loc_lng', pos.coords.longitude);
+        field(form, 'loc_acc', pos.coords.accuracy);
+        send('ok');
+      }, function (err) {
+        fail(err.code === 1 ? 'denied' : (err.code === 3 ? 'timeout' : 'unavailable'));
+      }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+    });
+  });
+})();
+
 /* Collapsible sidebar on desktop. The state is kept per browser; <head> applies it before the page paints. */
 (function () {
   'use strict';

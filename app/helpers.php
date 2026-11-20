@@ -23,13 +23,24 @@ function base_path(): string
     return $base;
 }
 
+function is_https(): bool
+{
+    return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+}
+
+/** HTTPS, or localhost: where browsers allow features such as location. */
+function is_secure_origin(): bool
+{
+    $host = strtolower((string)preg_replace('/:\d+$/', '', (string)($_SERVER['HTTP_HOST'] ?? '')));
+    return is_https() || in_array($host, ['localhost', '127.0.0.1', '[::1]'], true);
+}
+
 /** Absolute base URL (used in emails). Falls back to the URL saved at install time. */
 function base_url(): string
 {
     if (!empty($_SERVER['HTTP_HOST'])) {
-        $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-            || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
-        return ($https ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . base_path();
+        return (is_https() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . base_path();
     }
     return rtrim((string)config('base_url', ''), '/');
 }

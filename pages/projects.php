@@ -16,6 +16,7 @@ function describe_project(array $p): array
         'priority'    => $p['priority'],
         'start_date'  => $p['start_date'],
         'target_date' => $p['target_date'],
+        'member_tasks' => !empty($p['member_tasks']) ? 'Yes' : 'No',
     ];
 }
 
@@ -27,6 +28,7 @@ function project_form_data(): array
         'description'   => (string)input('description', '') ?: null,
         'client_id'     => input_int('client_id') ?: null,
         'client_visible' => input('client_visible') ? 1 : 0,
+        'member_tasks'  => input('member_tasks') ? 1 : 0,
         'department_id' => input_int('department_id') ?: null,
         'manager_id'    => input_int('manager_id') ?: null,
         'status'        => array_key_exists((string)input('status'), project_statuses()) ? input('status') : 'planning',

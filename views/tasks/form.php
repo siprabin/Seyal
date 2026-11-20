@@ -23,6 +23,13 @@ $userOption = fn($u, $sel) => '<option value="' . (int)$u['id'] . '"' . selected
         <label class="form-label" for="description"><?= e(t('Description')) ?></label>
         <textarea class="form-control" id="description" name="description" rows="4"><?= e($v('description')) ?></textarea>
       </div>
+      <?php if (!$canAssign): ?>
+      <div class="col-md-6">
+        <label class="form-label"><?= e(t('Assignee')) ?></label>
+        <div class="form-control bg-light"><i class="bi bi-person"></i> <?= e($fixedAssignee ?: t('Unassigned')) ?></div>
+        <div class="form-text"><?= e($task ? t('Only a project manager can change who this task is assigned to.') : t('Tasks you add are assigned to you.')) ?></div>
+      </div>
+      <?php else: ?>
       <div class="col-md-6">
         <label class="form-label" for="assignee_id"><?= e(t('Assignee')) ?></label>
         <select class="form-select" id="assignee_id" name="assignee_id">
@@ -36,6 +43,7 @@ $userOption = fn($u, $sel) => '<option value="' . (int)$u['id'] . '"' . selected
           <?php endif; ?>
         </select>
       </div>
+      <?php endif; ?>
       <div class="col-6 col-md-3">
         <label class="form-label" for="status"><?= e(t('Status')) ?></label>
         <select class="form-select" id="status" name="status">
@@ -48,6 +56,13 @@ $userOption = fn($u, $sel) => '<option value="' . (int)$u['id'] . '"' . selected
           <?php foreach (priorities() as $k => $s): ?><option value="<?= e($k) ?>"<?= selected($v('priority', 'medium'), $k) ?>><?= e($s['label']) ?></option><?php endforeach; ?>
         </select>
       </div>
+      <?php if (!$canAssign): ?>
+      <div class="col-md-6">
+        <label class="form-label"><?= e(t('Weightage')) ?></label>
+        <div class="form-control bg-light"><?= weight_stars((int)($tk['weightage'] ?? 3)) ?></div>
+        <div class="form-text"><?= e(t('Your project manager sets the weightage.')) ?></div>
+      </div>
+      <?php else: ?>
       <div class="col-md-6">
         <label class="form-label"><?= e(t('Weightage')) ?></label>
         <div class="d-flex flex-wrap gap-1" role="radiogroup">
@@ -60,6 +75,7 @@ $userOption = fn($u, $sel) => '<option value="' . (int)$u['id'] . '"' . selected
         </div>
         <div class="form-text"><?= e(t('How important or large this task is (1 = very small, 5 = critical). Used for progress % and later for performance scores.')) ?></div>
       </div>
+      <?php endif; ?>
       <div class="col-md-6">
         <label class="form-label" for="estimated_hours"><?= e(t('Estimated hours')) ?></label>
         <input type="number" class="form-control" id="estimated_hours" name="estimated_hours" min="0" max="9999" step="0.25" value="<?= e($v('estimated_hours') !== null ? rtrim(rtrim((string)$v('estimated_hours'), '0'), '.') : '') ?>">

@@ -98,6 +98,13 @@ $v = fn($k, $d = '') => old($k, $p[$k] ?? $d);
         </select>
         <div class="form-text"><?= e(t('Hold Ctrl (Cmd on Mac) to pick several people. Anyone assigned a task is added automatically.')) ?></div>
       </div>
+      <div class="col-12">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="member_tasks" name="member_tasks" value="1"<?= checked((bool)$v('member_tasks', 0)) ?>>
+          <label class="form-check-label" for="member_tasks"><?= e(t('Team members can add their own tasks')) ?></label>
+        </div>
+        <div class="form-text"><?= e(t('Team members of this project can create tasks, but only for themselves. Only project managers can assign tasks to others or set the weightage.')) ?></div>
+      </div>
     </div>
   </div>
   <div class="card-footer bg-white d-flex gap-2">

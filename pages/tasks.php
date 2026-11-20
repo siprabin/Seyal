@@ -83,13 +83,20 @@ switch ($action) {
             }
         } else {
             $project = find_project_or_404((int)input('project'));
-            if (!can_manage_project($project)) {
+            if (!can_create_task($project)) {
                 abort(403);
             }
         }
+        $canAssign = can_assign_tasks($project);
 
         if (is_post()) {
             $d = task_form_data();
+            // People who don't manage the project can't give work to others or set weightage (it feeds performance scores):
+            // new tasks are always theirs with the default weightage; on edit, assignee and weightage stay as they were.
+            if (!$canAssign) {
+                $d['assignee_id'] = $task ? ($task['assignee_id'] ? (int)$task['assignee_id'] : null) : uid();
+                $d['weightage'] = $task ? (int)$task['weightage'] : 3;
+            }
             $errors = validate_task($d);
             $reason = (string)input('due_reason', '');
             if ($task && $task['due_date'] && $d['due_date'] !== $task['due_date'] && $reason === '') {
@@ -140,6 +147,8 @@ switch ($action) {
             'pageTitle' => $task ? t('Edit task') : ($parent ? t('New subtask') : t('New task')),
             'task' => $task, 'parent' => $parent, 'project' => $project,
             'inProject' => $inProject, 'others' => $others,
+            'canAssign' => $canAssign,
+            'fixedAssignee' => $task ? user_name($task['assignee_id'] ? (int)$task['assignee_id'] : null) : (string)user()['name'],
         ]);
         break;
 

@@ -570,9 +570,9 @@ Several demo users start in another language (Anitha Hindi, Meena Tamil, Suresh 
 |---|---|
 | **Super Admin** | Everything: settings, roles & permissions, users, audit log, publishing appraisals |
 | **Senior Management** | All projects and people, clients, reports, audit log |
-| **Department Head** | All projects and people in their department, reports |
-| **Project Manager / Team Lead** | Creates projects; full control of projects they manage; reports for their team |
-| **Team Member** | Projects they belong to; moves their own tasks; logs their day |
+| **Department Head** | All projects and people in their department, clients, reports |
+| **Project Manager / Team Lead** | Creates projects and clients (including client portal logins); full control of projects they manage; reports for their team |
+| **Team Member** | Projects they belong to; moves their own tasks; logs their day; adds tasks **for themselves only** in projects where *Team members can add their own tasks* is switched on |
 | **Client** | Read-only client portal for their own projects |
 
 The Super Admin can change permissions under **Roles & Permissions**. Whatever the settings, people always see projects they manage, belong to or have tasks in.

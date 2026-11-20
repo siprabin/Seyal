@@ -9,6 +9,7 @@
 <style>body{background:#fff;font-size:12px}.page{max-width:900px;margin:0 auto;padding:24px}.metric{padding:.4rem .6rem}@page{margin:14mm}</style>
 </head>
 <body>
+<table class="print-wrap"><tbody><tr><td>
 <div class="page">
   <div class="no-print mb-3 d-flex gap-2"><button class="btn btn-primary btn-sm" onclick="window.print()"><i class="bi bi-printer"></i> <?= e(t('Print / Save as PDF')) ?></button></div>
   <div class="d-flex border-bottom pb-2 mb-3">
@@ -31,7 +32,9 @@
     <p><?= e(t('Acknowledged on :date', ['date' => fmt_datetime($a['acknowledged_at'])])) ?></p>
     <?php if ($a['employee_comment']): ?><p style="white-space:pre-wrap"><?= e($a['employee_comment']) ?></p><?php endif; ?>
   <?php endif; ?>
+  <?php require APP_ROOT . '/views/partials/print_credit.php'; ?>
 </div>
+</td></tr></tbody><tfoot class="print-spacer"><tr><td></td></tr></tfoot></table>
 <script>window.addEventListener('load', function () { setTimeout(function () { window.print(); }, 400); });</script>
 </body>
 </html>

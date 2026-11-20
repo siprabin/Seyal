@@ -27,8 +27,10 @@
     <?php foreach ($rows as $r): ?><tr><?php foreach ($r as $i => $c): ?><td class="<?= in_array($i, $numericCols, true) ? 'text-end' : '' ?>"><?= e(is_float($c) ? rtrim(rtrim(number_format($c, 2, '.', ''), '0'), '.') : (string)$c) ?></td><?php endforeach; ?></tr><?php endforeach; ?>
     <?php if (!$rows): ?><tr><td colspan="<?= count($headers) ?>" class="text-center text-muted"><?= e(t('No data for this selection.')) ?></td></tr><?php endif; ?>
     </tbody>
+    <tfoot class="print-spacer"><tr><td colspan="<?= count($headers) ?>"></td></tr></tfoot>
   </table>
   <div class="text-muted small"><?= e(t(':n rows', ['n' => count($rows)])) ?></div>
+  <?php require APP_ROOT . '/views/partials/print_credit.php'; ?>
 </div>
 <script>window.addEventListener('load', function () { setTimeout(function () { window.print(); }, 400); });</script>
 </body>

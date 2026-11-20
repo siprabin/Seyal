@@ -47,14 +47,34 @@ function asset(string $path): string
     return base_path() . '/assets/' . $path . '?v=' . $v;
 }
 
-/** Favicon, phone home-screen icons and web app manifest, for every page <head>. */
+/** Favicon, phone home-screen icons, web app manifest and generator tag, for every page <head>. */
 function head_icons(): string
 {
-    return '<link rel="icon" href="' . asset('img/favicon.svg') . '" type="image/svg+xml">'
+    return '<meta name="generator" content="' . e(APP_NAME . ' ' . APP_VERSION . ' - ' . APP_AUTHOR) . '">'
+        . '<link rel="icon" href="' . asset('img/favicon.svg') . '" type="image/svg+xml">'
         . '<link rel="icon" href="' . asset('img/favicon-32.png') . '" sizes="32x32" type="image/png">'
         . '<link rel="apple-touch-icon" href="' . asset('img/apple-touch-icon.png') . '">'
         . '<link rel="manifest" href="' . e(base_path() . '/manifest.webmanifest') . '">'
         . '<meta name="theme-color" content="#1f3a5f">';
+}
+
+/**
+ * The product credit "Powered by Seyal - Fluxosoft". It is a brand line, so it is the same in every language.
+ * Plain text for files, exports and Teams; powered_by_html() for web pages.
+ */
+function powered_by(): string
+{
+    return 'Powered by ' . APP_NAME . ' - ' . APP_AUTHOR;
+}
+
+/** The credit as HTML with the Seyal mark and links (always left-to-right, also inside Arabic pages). */
+function powered_by_html(bool $logo = true): string
+{
+    $link = fn(string $href, string $text) => '<a href="' . e($href) . '" target="_blank" rel="noopener">' . e($text) . '</a>';
+    return '<span class="powered-by ltr" dir="ltr">'
+        . ($logo ? '<img src="' . asset('img/logo-mark.svg') . '" alt="" width="14" height="14"> ' : '')
+        . 'Powered by ' . $link(APP_REPO_URL, APP_NAME) . ' - ' . $link(APP_AUTHOR_URL, APP_AUTHOR)
+        . '</span>';
 }
 
 function redirect(string $to): never

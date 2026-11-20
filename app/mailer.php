@@ -61,6 +61,7 @@ function mail_wrap(string $title, string $body): string
         . '<div style="max-width:600px;margin:24px auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e3e5e8">'
         . '<div style="background:#1f3a5f;color:#fff;padding:14px 20px;font-weight:600">' . $company . '</div>'
         . '<div style="padding:20px;line-height:1.55">' . $body . '</div>'
-        . '<div style="padding:12px 20px;color:#888;font-size:12px;border-top:1px solid #eee">' . e(t('This is an automatic message.')) . '</div>'
+        . '<div style="padding:12px 20px;color:#888;font-size:12px;border-top:1px solid #eee">' . e(t('This is an automatic message.'))
+        . '<br><span dir="ltr">Powered by <a href="' . e(APP_REPO_URL) . '" style="color:#888">' . e(APP_NAME) . '</a> - <a href="' . e(APP_AUTHOR_URL) . '" style="color:#888">' . e(APP_AUTHOR) . '</a></span></div>'
         . '</div></body></html>';
 }

@@ -28,6 +28,7 @@ $routes = [
     'audit'       => 'audit',
     'settings'    => 'settings',
     'profile'     => 'profile',
+    'about'       => 'about',
     'myday'       => 'myday',
     'team'        => 'team',
     'aitools'     => 'aitools',
@@ -55,7 +56,7 @@ if (is_post()) {
 }
 
 // Client logins only ever see the read-only portal.
-if (user() && user()['role'] === ROLE_CLIENT && !in_array($page, ['portal', 'profile', 'logout', 'lang', 'login'], true)) {
+if (user() && user()['role'] === ROLE_CLIENT && !in_array($page, ['portal', 'profile', 'about', 'logout', 'lang', 'login'], true)) {
     redirect(url('portal'));
 }
 

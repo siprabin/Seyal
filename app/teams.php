@@ -27,7 +27,7 @@ function teams_post(array $cardBody, array $actions = []): ?string
         'type'    => 'AdaptiveCard',
         'version' => '1.4',
         'msteams' => ['width' => 'Full'],
-        'body'    => $cardBody,
+        'body'    => array_merge($cardBody, [card_text(powered_by(), ['size' => 'Small', 'isSubtle' => true, 'spacing' => 'Medium'])]),
     ];
     if ($actions) {
         $card['actions'] = $actions;

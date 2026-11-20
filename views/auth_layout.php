@@ -26,7 +26,7 @@
       <?= $content ?>
     </div>
   </div>
-  <div class="auth-powered"><img src="<?= asset('img/logo-mark.svg') ?>" alt="" width="16" height="16"> <?= e(APP_NAME) ?></div>
+  <div class="auth-powered"><?= powered_by_html() ?></div>
 </div>
 </body>
 </html>

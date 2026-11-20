@@ -74,13 +74,21 @@ body { background: var(--app-bg); font-size: .925rem; }
 .content { padding: 1.25rem; }
 @media (max-width: 575.98px) { .content { padding: 1rem; } }
 
+/* ---------- Footer credit: "© Company" + "Powered by Seyal - Fluxosoft" ---------- */
+.app-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .25rem 1rem; margin-top: auto; padding: .7rem 1.25rem; font-size: .78rem; color: #8a94a3; border-top: 1px solid #e3e6ea; }
+.powered-by { white-space: nowrap; }
+.powered-by img { vertical-align: -2px; border-radius: 3px; }
+.powered-by a { color: inherit; font-weight: 600; text-decoration: none; }
+.powered-by a:hover { text-decoration: underline; }
+@media print { .app-footer { display: none; } }
+
 /* ---------- Auth pages ---------- */
 .auth-body { background: linear-gradient(135deg, #1f3a5f 0%, #2f5d8a 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; }
 .auth-wrap { width: 100%; max-width: 410px; }
 .auth-wrap .btn-outline-secondary { color: #fff; border-color: rgba(255,255,255,.5); }
 .auth-logo { width: 56px; height: 56px; border-radius: 13px; margin-bottom: .6rem; box-shadow: 0 4px 12px rgba(31,58,95,.25); }
-.auth-powered { text-align: center; margin-top: 1rem; color: rgba(255,255,255,.7); font-size: .8rem; font-weight: 600; letter-spacing: .02em; }
-.auth-powered img { vertical-align: -3px; border-radius: 4px; }
+.auth-powered { text-align: center; margin-top: 1rem; color: rgba(255,255,255,.75); font-size: .8rem; letter-spacing: .02em; }
+.auth-powered a { color: #fff; }
 
 /* ---------- Components ---------- */
 .card { border-color: #e3e6ea; }
@@ -200,5 +208,17 @@ body { background: var(--app-bg); font-size: .925rem; }
 .appraisal-status { text-transform: none; }
 .portal-body { background: var(--app-bg); }
 .portal-top { background: var(--app-sidebar-bg); color: #fff; }
-.portal-top a { color: #fff; }
+/* Only the header's own links are white; dropdown menus (language, profile) keep Bootstrap's dark-on-white colours. */
+.portal-top a:not(.dropdown-item) { color: #fff; }
 @media print { .no-print { display: none !important; } }
+
+/* Printouts: the credit sits at the end on screen and repeats at the bottom of every printed page. */
+.print-credit { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; margin-top: 1rem; padding-top: .4rem; border-top: 1px solid #dee2e6; color: #8a94a3; font-size: 9px; }
+.print-wrap { width: 100%; border-collapse: collapse; }
+.print-wrap > tbody > tr > td { padding: 0 !important; }
+.print-spacer, .print-spacer tr, .print-spacer td { border: 0 !important; background: transparent !important; box-shadow: none !important; padding: 0 !important; }
+@media screen { .print-spacer { display: none; } }
+@media print {
+  .print-credit { position: fixed; bottom: 0; left: 0; right: 0; margin: 0; background: #fff; }
+  .print-spacer td { height: 8mm; }
+}

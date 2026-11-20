@@ -111,7 +111,7 @@ $navBlock = function (array $items, ?string $heading = null) use ($current) {
               </form>
             </li>
             <li><hr class="dropdown-divider"></li>
-            <li><span class="dropdown-item-text small text-muted ltr"><?= e(APP_NAME) ?> v<?= e(APP_VERSION) ?></span></li>
+            <li><a class="dropdown-item small text-muted" href="<?= e(url('about')) ?>"><i class="bi bi-info-circle me-2"></i><?= e(t('About :app', ['app' => APP_NAME])) ?> <span class="ltr">v<?= e(APP_VERSION) ?></span></a></li>
           </ul>
         </div>
       </div>
@@ -126,6 +126,10 @@ $navBlock = function (array $items, ?string $heading = null) use ($current) {
       <?php endforeach; ?>
       <?= $content ?>
     </main>
+    <footer class="app-footer">
+      <span>&copy; <?= date('Y') ?> <?= e($company) ?></span>
+      <?= powered_by_html() ?>
+    </footer>
   </div>
 </div>
 <script src="<?= asset('vendor/bootstrap/bootstrap.bundle.min.js') ?>"></script>

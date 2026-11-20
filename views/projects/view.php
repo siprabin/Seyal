@@ -60,7 +60,7 @@ if (!$filtered) {
         <div class="card-body text-center text-muted py-5">
           <i class="bi bi-list-check fs-1 d-block mb-2"></i>
           <?= e($filtered ? t('No tasks match these filters.') : t('No tasks yet.')) ?>
-          <?php if ($canManage && !$filtered): ?>
+          <?php if (can_create_task($project) && !$filtered): ?>
             <div class="mt-3"><a class="btn btn-primary btn-sm" href="<?= e(url('tasks', ['a' => 'create', 'project' => $project['id']])) ?>"><?= e(t('Add the first task')) ?></a></div>
           <?php endif; ?>
         </div>

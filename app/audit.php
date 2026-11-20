@@ -84,6 +84,7 @@ function audit_field_label(?string $field): string
         'phone' => 'Phone', 'head' => 'Department head', 'contact_person' => 'Contact person',
         'address' => 'Address', 'notes' => 'Notes', 'password' => 'Password', 'lang' => 'Language',
         'permissions' => 'Permissions', 'setting' => 'Setting', 'rating' => 'Rating',
+        'member_tasks' => 'Team members can add their own tasks',
     ];
     return $field ? t($map[$field] ?? $field) : '';
 }

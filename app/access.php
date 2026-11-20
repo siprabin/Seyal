@@ -121,11 +121,44 @@ function can_update_task_status(array $task, array $project): bool
     return can_manage_project($project) || (int)$task['assignee_id'] === uid();
 }
 
-/** Managers edit any task; people may edit subtasks they created themselves. */
+/**
+ * Team members of a project may add tasks for themselves when the project allows it
+ * (project setting "Team members can add their own tasks"). Such tasks are always assigned to the creator.
+ */
+function can_add_own_task(array $project): bool
+{
+    if (empty($project['member_tasks']) || (user()['role'] ?? '') === ROLE_CLIENT) {
+        return false;
+    }
+    return (bool)val('SELECT COUNT(*) FROM project_members WHERE project_id = ? AND user_id = ?', [$project['id'], uid()]);
+}
+
+/** Who sees "Add task" on a project: its managers, and team members when the project allows own tasks. */
+function can_create_task(array $project): bool
+{
+    return can_manage_project($project) || can_add_own_task($project);
+}
+
+/** Only people who manage the project may choose or change who a task is assigned to (and its weightage). */
+function can_assign_tasks(array $project): bool
+{
+    return can_manage_project($project);
+}
+
+/**
+ * Managers edit any task. Others may edit subtasks they created, and their own self-assigned tasks
+ * while the project allows team members to add their own tasks.
+ */
 function can_edit_task(array $task, array $project): bool
 {
-    return can_manage_project($project)
-        || ($task['parent_id'] && (int)$task['created_by'] === uid());
+    if (can_manage_project($project)) {
+        return true;
+    }
+    if ((int)$task['created_by'] !== uid()) {
+        return false;
+    }
+    return $task['parent_id']
+        || (!empty($project['member_tasks']) && (int)$task['assignee_id'] === uid());
 }
 
 /** Assignees can break their own task into subtasks. */

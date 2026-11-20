@@ -55,7 +55,7 @@ $late = $project['target_date'] && $project['target_date'] < today() && !in_arra
     <li class="nav-item"><a class="nav-link<?= $tab === 'board' ? ' active' : '' ?>" href="<?= e(url('projects', ['a' => 'board', 'id' => $project['id']])) ?>"><i class="bi bi-kanban"></i> <?= e(t('Board')) ?></a></li>
     <li class="nav-item"><a class="nav-link<?= $tab === 'history' ? ' active' : '' ?>" href="<?= e(url('projects', ['a' => 'history', 'id' => $project['id']])) ?>"><i class="bi bi-clock-history"></i> <?= e(t('History')) ?></a></li>
   </ul>
-  <?php if ($canManage): ?>
+  <?php if (can_create_task($project)): ?>
     <a href="<?= e(url('tasks', ['a' => 'create', 'project' => $project['id']])) ?>" class="btn btn-primary btn-sm ms-auto"><i class="bi bi-plus-lg"></i> <?= e(t('Add task')) ?></a>
   <?php endif; ?>
 </div>

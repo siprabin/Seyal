@@ -11,11 +11,12 @@ $company = setting('company_name', APP_NAME);
 <link rel="stylesheet" href="<?= asset(is_rtl() ? 'vendor/bootstrap/bootstrap.rtl.min.css' : 'vendor/bootstrap/bootstrap.min.css') ?>">
 <link rel="stylesheet" href="<?= asset('vendor/bootstrap-icons/bootstrap-icons.min.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
+<?= head_icons() ?>
 </head>
 <body class="portal-body">
 <header class="portal-top">
   <div class="container d-flex align-items-center gap-3 py-2">
-    <a href="<?= e(url('portal')) ?>" class="text-decoration-none fw-semibold d-flex align-items-center gap-2"><i class="bi bi-grid-1x2-fill"></i><span class="text-truncate"><?= e($company) ?></span></a>
+    <a href="<?= e(url('portal')) ?>" class="text-decoration-none fw-semibold d-flex align-items-center gap-2"><img src="<?= asset('img/logo-mark.svg') ?>" alt="" width="28" height="28"><span class="text-truncate"><?= e($company) ?></span></a>
     <span class="small opacity-75 d-none d-md-inline"><?= e(t('Client portal')) ?></span>
     <div class="ms-auto d-flex align-items-center gap-2">
       <?= lang_menu('btn-light') ?>

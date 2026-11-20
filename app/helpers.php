@@ -47,6 +47,16 @@ function asset(string $path): string
     return base_path() . '/assets/' . $path . '?v=' . $v;
 }
 
+/** Favicon, phone home-screen icons and web app manifest, for every page <head>. */
+function head_icons(): string
+{
+    return '<link rel="icon" href="' . asset('img/favicon.svg') . '" type="image/svg+xml">'
+        . '<link rel="icon" href="' . asset('img/favicon-32.png') . '" sizes="32x32" type="image/png">'
+        . '<link rel="apple-touch-icon" href="' . asset('img/apple-touch-icon.png') . '">'
+        . '<link rel="manifest" href="' . e(base_path() . '/manifest.webmanifest') . '">'
+        . '<meta name="theme-color" content="#1f3a5f">';
+}
+
 function redirect(string $to): never
 {
     header('Location: ' . $to);

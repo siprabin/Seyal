@@ -19,7 +19,7 @@
           </div>
         </div>
         <?php if (!$myDay || $myDay['status'] === 'missed'): ?>
-          <form method="post" action="<?= e(url('myday', ['a' => 'start'])) ?>"><?= csrf_field() ?><button class="btn btn-success"><i class="bi bi-play-circle"></i> <?= e(t('Start Day')) ?></button></form>
+          <form method="post" action="<?= e(url('myday', ['a' => 'start'])) ?>"<?= location_form_attr() ?>><?= csrf_field() ?><button class="btn btn-success"><i class="bi bi-play-circle"></i> <?= e(t('Start Day')) ?></button></form>
         <?php elseif ($myDay['status'] === 'open'): ?>
           <a href="<?= e(url('myday')) ?>#entry-form" class="btn btn-primary"><i class="bi bi-plus-circle"></i> <?= e(t('Log work')) ?></a>
           <a href="<?= e(url('myday', ['a' => 'close'])) ?>" class="btn btn-outline-danger"><i class="bi bi-stop-circle"></i> <?= e(t('Close Day')) ?></a>

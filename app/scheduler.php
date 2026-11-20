@@ -10,6 +10,10 @@ declare(strict_types=1);
 function run_scheduled_tasks(int $budget = 60): array
 {
     $log = [];
+    // New files uploaded but the database not updated yet: the jobs may use columns that don't exist yet.
+    if (pending_migrations(db())) {
+        return ['A database update is pending (Settings → System → Run database updates); skipped.'];
+    }
     if (!(int)val("SELECT GET_LOCK('seyal_scheduler', 0)")) {
         return ['Another scheduler run is in progress; skipped.'];
     }

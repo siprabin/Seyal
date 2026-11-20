@@ -190,6 +190,24 @@ $tabLabels = [
   </div>
   <div class="col-12">
     <div class="card">
+      <div class="card-header"><i class="bi bi-geo-alt"></i> <?= e(t('Location at Start Day and Close Day')) ?></div>
+      <div class="card-body">
+        <?php $locMode = location_mode(); foreach ([
+            'off'      => t('Off — do not record location'),
+            'ask'      => t('Ask — record it when the person allows'),
+            'required' => t('Required — the day cannot be started or closed without it'),
+        ] as $k => $label): ?>
+          <div class="form-check"><input class="form-check-input" type="radio" name="location_mode" id="loc_<?= $k ?>" value="<?= $k ?>"<?= checked($locMode === $k) ?>>
+            <label class="form-check-label" for="loc_<?= $k ?>"><?= e($label) ?></label></div>
+        <?php endforeach; ?>
+        <p class="small text-muted mt-2 mb-1"><?= e(t('Managers see a map pin next to the start and close times in Team Day. Each person is told that their location is recorded, and the browser asks for their permission.')) ?></p>
+        <p class="small text-muted mb-0"><?= e(t('Browsers only share location on HTTPS sites (and on localhost). On an office network opened as http://192.168…, location is not available, so use "Ask" there, not "Required". Phones are accurate; laptops locate by Wi-Fi and can be off by several hundred metres.')) ?></p>
+        <?php if ($locMode !== 'off' && !is_secure_origin()): ?><div class="alert alert-warning small mt-2 mb-0"><i class="bi bi-exclamation-triangle"></i> <?= e(t('This site is not using HTTPS, so browsers will not share location.')) ?></div><?php endif; ?>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="card">
       <div class="card-header"><i class="bi bi-alarm"></i> <?= e(t('Scheduler (reminders, digests, auto-close)')) ?></div>
       <div class="card-body">
         <div class="form-check form-switch mb-2"><input class="form-check-input" type="checkbox" role="switch" id="builtin_scheduler" name="builtin_scheduler" value="1"<?= checked(setting('builtin_scheduler', '1') === '1') ?>>
@@ -202,7 +220,7 @@ $tabLabels = [
           </div>
           <div class="col-lg-6">
             <strong>XAMPP (Windows)</strong> — <?= e(t('Task Scheduler → Create Task → trigger every 5 minutes → action:')) ?>
-            <pre class="bg-light border rounded p-2 mt-1 mb-0 user-select-all">C:\xampp\php\php.exe "<?= e($isWin ? str_replace('/', '\\', $cronPath) : 'C:\xampp\htdocs\pm\cron.php') ?>"</pre>
+            <pre class="bg-light border rounded p-2 mt-1 mb-0 user-select-all">C:\xampp\php\php.exe "<?= e($isWin ? str_replace('/', '\\', $cronPath) : 'C:\xampp\htdocs\seyal\cron.php') ?>"</pre>
           </div>
           <div class="col-12">
             <?= e(t('Or, if your host only allows a URL:')) ?>

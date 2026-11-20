@@ -102,6 +102,7 @@ if (is_post()) {
                 'email_close_summary' => input('email_close_summary') ? '1' : '0',
                 'email_close_copy'    => input('email_close_copy') ? '1' : '0',
                 'builtin_scheduler'   => input('builtin_scheduler') ? '1' : '0',
+                'location_mode'       => in_array(input('location_mode'), ['off', 'ask', 'required'], true) ? (string)input('location_mode') : 'off',
             ]);
             flash('success', t('Settings saved.'));
             redirect(url('settings', ['tab' => 'daily']));

@@ -223,6 +223,7 @@ function team_day_rows(array $userIds, string $date): array
     }
     $out = rows(
         'SELECT u.id AS user_id, u.name, u.designation, wd.id AS day_id, wd.status, wd.started_at, wd.closed_at, wd.flagged, wd.flag_reason,
+                wd.start_lat, wd.start_lng, wd.start_accuracy, wd.start_loc_status, wd.close_lat, wd.close_lng, wd.close_accuracy, wd.close_loc_status,
                 COALESCE(SUM(wl.hours), 0) AS hours,
                 COALESCE(SUM(CASE WHEN wl.ai_used = 1 THEN wl.ai_minutes ELSE 0 END), 0) AS ai_minutes,
                 COALESCE(SUM(CASE WHEN wl.ai_used = 1 THEN wl.time_saved_minutes ELSE 0 END), 0) AS saved_minutes,
@@ -232,7 +233,8 @@ function team_day_rows(array $userIds, string $date): array
          LEFT JOIN work_days wd ON wd.user_id = u.id AND wd.work_date = ?
          LEFT JOIN work_logs wl ON wl.work_day_id = wd.id
          WHERE u.id IN (' . in_list($userIds) . ')
-         GROUP BY u.id, u.name, u.designation, wd.id, wd.status, wd.started_at, wd.closed_at, wd.flagged, wd.flag_reason
+         GROUP BY u.id, u.name, u.designation, wd.id, wd.status, wd.started_at, wd.closed_at, wd.flagged, wd.flag_reason,
+                  wd.start_lat, wd.start_lng, wd.start_accuracy, wd.start_loc_status, wd.close_lat, wd.close_lng, wd.close_accuracy, wd.close_loc_status
          ORDER BY u.name',
         array_merge([$date], array_values($userIds))
     );

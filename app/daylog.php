@@ -175,9 +175,83 @@ function is_late_start(array $day): bool
     return $day['started_at'] && date('H:i', strtotime($day['started_at'])) > time_setting('remind_start_time', '11:00');
 }
 
+/* ---------- Location at Start Day / Close Day ---------- */
+
+/** Settings → Daily work → Location: 'off', 'ask' (record when the person allows) or 'required'. */
+function location_mode(): string
+{
+    $m = (string)setting('location_mode', 'off');
+    return in_array($m, ['off', 'ask', 'required'], true) ? $m : 'off';
+}
+
+/**
+ * Location sent by the browser with the Start Day / Close Day form, as work_days columns
+ * ($prefix 'start' or 'close'). Empty when location capture is off.
+ */
+function location_from_request(string $prefix): array
+{
+    if (location_mode() === 'off') {
+        return [];
+    }
+    $lat = filter_var(input('loc_lat'), FILTER_VALIDATE_FLOAT);
+    $lng = filter_var(input('loc_lng'), FILTER_VALIDATE_FLOAT);
+    $ok = $lat !== false && $lng !== false && abs($lat) <= 90 && abs($lng) <= 180 && !($lat == 0 && $lng == 0);
+    $status = (string)input('loc_status', '');
+    if (!in_array($status, ['denied', 'unavailable', 'timeout', 'unsupported'], true)) {
+        $status = 'unavailable';
+    }
+    $acc = filter_var(input('loc_acc'), FILTER_VALIDATE_FLOAT);
+    return [
+        $prefix . '_lat'        => $ok ? round($lat, 6) : null,
+        $prefix . '_lng'        => $ok ? round($lng, 6) : null,
+        $prefix . '_accuracy'   => $ok && $acc !== false ? (int)min(max(round($acc), 0), 1000000) : null,
+        $prefix . '_loc_status' => $ok ? 'ok' : $status,
+    ];
+}
+
+/** Attribute for Start Day / Close Day forms: app.js asks the browser for the location before submitting. */
+function location_form_attr(): string
+{
+    $mode = location_mode();
+    return $mode === 'off' ? '' : ' data-location="' . $mode . '"';
+}
+
+/** True when the location is required but the browser did not send one. */
+function location_missing(array $loc, string $prefix): bool
+{
+    return location_mode() === 'required' && ($loc[$prefix . '_loc_status'] ?? '') !== 'ok';
+}
+
+/**
+ * Small map-pin link for a recorded location ($prefix 'start' or 'close'), or a muted icon when the
+ * person did not share it. Empty when nothing was recorded (capture off, closed by a manager or automatically).
+ */
+function location_pin(array $day, string $prefix, bool $withText = false): string
+{
+    $status = $day[$prefix . '_loc_status'] ?? null;
+    if (!$status) {
+        return '';
+    }
+    if ($status !== 'ok') {
+        $why = $status === 'denied' ? t('Location access was blocked') : t('Location not available');
+        return ' <span class="text-muted" title="' . e($why) . '"><i class="bi bi-geo"></i>' . ($withText ? ' <small>' . e($why) . '</small>' : '') . '</span>';
+    }
+    $lat = (float)$day[$prefix . '_lat'];
+    $lng = (float)$day[$prefix . '_lng'];
+    $acc = $day[$prefix . '_accuracy'] !== null ? (int)$day[$prefix . '_accuracy'] : null;
+    $coords = number_format($lat, 5, '.', '') . ', ' . number_format($lng, 5, '.', '');
+    $tip = $coords . ($acc !== null ? ' · ' . t('Accuracy: ±:n m', ['n' => $acc]) : '');
+    // Laptops locate by Wi-Fi/IP and can be far off; flag anything less precise than 1 km.
+    $rough = $acc !== null && $acc > 1000;
+    return ' <a href="' . e('https://www.google.com/maps?q=' . rawurlencode($coords)) . '" target="_blank" rel="noopener" class="text-decoration-none' . ($rough ? ' text-warning-emphasis' : '') . '" title="' . e($tip) . '">'
+        . '<i class="bi bi-geo-alt-fill"></i>'
+        . ($withText ? ' <span class="ltr small">' . e($coords) . '</span>' . ($acc !== null ? ' <small class="text-muted ltr">±' . $acc . ' m</small>' : '') : '')
+        . '</a>';
+}
+
 /* ---------- Changing days ---------- */
 
-function start_day(int $userId): array
+function start_day(int $userId, array $location = []): array
 {
     $today = today();
     $day = get_work_day($userId, $today);
@@ -186,9 +260,9 @@ function start_day(int $userId): array
     }
     if ($day) {
         // A "missed"/"leave" placeholder for today: turn it into a real day.
-        update('work_days', ['status' => 'open', 'started_at' => now(), 'flagged' => 0, 'flag_reason' => null, 'updated_at' => now()], ['id' => $day['id']]);
+        update('work_days', ['status' => 'open', 'started_at' => now(), 'flagged' => 0, 'flag_reason' => null, 'updated_at' => now()] + $location, ['id' => $day['id']]);
     } else {
-        insert('work_days', ['user_id' => $userId, 'work_date' => $today, 'status' => 'open', 'started_at' => now(), 'created_at' => now()]);
+        insert('work_days', ['user_id' => $userId, 'work_date' => $today, 'status' => 'open', 'started_at' => now(), 'created_at' => now()] + $location);
     }
     return get_work_day($userId, $today);
 }
@@ -197,9 +271,13 @@ function start_day(int $userId): array
  * Close a day and send the summary (email to manager + Teams).
  * Returns a list of warnings about notifications that failed (the day is closed regardless).
  */
-function close_day(array $day, ?int $closedBy, string $status = 'closed', ?string $note = null, ?string $flagReason = null): array
+function close_day(array $day, ?int $closedBy, string $status = 'closed', ?string $note = null, ?string $flagReason = null, array $location = []): array
 {
-    update('work_days', [
+    // A day closed by a manager or automatically has no close location; clear one left from before a reopen.
+    if (!$location && location_mode() !== 'off') {
+        $location = ['close_lat' => null, 'close_lng' => null, 'close_accuracy' => null, 'close_loc_status' => null];
+    }
+    update('work_days', $location + [
         'status'      => $status,
         'closed_at'   => now(),
         'closed_by'   => $closedBy,

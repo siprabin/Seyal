@@ -79,8 +79,8 @@ $startLimit = time_setting('remind_start_time', '11:00');
           <?php if ($r['status']): ?><?= badge(work_day_statuses(), $r['status']) ?><?php else: ?><span class="badge bg-light text-danger border"><?= e(t('Not started')) ?></span><?php endif; ?>
           <?php if ($r['flagged']): ?><i class="bi bi-flag-fill text-danger ms-1" title="<?= e($r['flag_reason']) ?>"></i><?php endif; ?>
         </td>
-        <td class="text-nowrap<?= $late ? ' text-warning-emphasis fw-semibold' : '' ?>"><?= e(fmt_time($r['started_at'])) ?><?= $late ? ' <i class="bi bi-alarm" title="' . e(t('Late start')) . '"></i>' : '' ?></td>
-        <td class="text-nowrap"><?= e(fmt_time($r['closed_at'])) ?></td>
+        <td class="text-nowrap<?= $late ? ' text-warning-emphasis fw-semibold' : '' ?>"><?= e(fmt_time($r['started_at'])) ?><?= $late ? ' <i class="bi bi-alarm" title="' . e(t('Late start')) . '"></i>' : '' ?><?= location_pin($r, 'start') ?></td>
+        <td class="text-nowrap"><?= e(fmt_time($r['closed_at'])) ?><?= location_pin($r, 'close') ?></td>
         <td class="text-end"><?= e(fmt_hours((float)$r['hours'])) ?></td>
         <td class="text-end d-none d-md-table-cell"><?= (int)$r['entries'] ?></td>
         <td class="text-end d-none d-md-table-cell"><?= $r['ai_minutes'] ? e(fmt_minutes((int)$r['ai_minutes'])) : '—' ?></td>

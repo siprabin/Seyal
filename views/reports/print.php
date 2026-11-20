@@ -18,7 +18,7 @@
 <div class="page">
   <div class="no-print mb-2"><button class="btn btn-primary btn-sm" onclick="window.print()"><?= e(t('Print / Save as PDF')) ?></button></div>
   <div class="d-flex border-bottom pb-2 mb-2">
-    <div><div class="fw-bold fs-6"><?= e(setting('company_name', 'Project Management')) ?></div><div class="fs-5"><?= e($title) ?></div><div class="text-muted ltr"><?= e($subtitle) ?></div></div>
+    <div><div class="fw-bold fs-6"><?= e(setting('company_name', APP_NAME)) ?></div><div class="fs-5"><?= e($title) ?></div><div class="text-muted ltr"><?= e($subtitle) ?></div></div>
     <div class="ms-auto text-muted small"><?= e(t('Generated')) ?>: <?= e(fmt_datetime(now())) ?><br><?= e(user()['name']) ?></div>
   </div>
   <table class="table table-bordered table-sm">

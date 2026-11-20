@@ -10,7 +10,7 @@ declare(strict_types=1);
 function run_scheduled_tasks(int $budget = 60): array
 {
     $log = [];
-    if (!(int)val("SELECT GET_LOCK('pm_scheduler', 0)")) {
+    if (!(int)val("SELECT GET_LOCK('seyal_scheduler', 0)")) {
         return ['Another scheduler run is in progress; skipped.'];
     }
     try {
@@ -128,7 +128,7 @@ function run_scheduled_tasks(int $budget = 60): array
             }
         }
     } finally {
-        q("SELECT RELEASE_LOCK('pm_scheduler')");
+        q("SELECT RELEASE_LOCK('seyal_scheduler')");
     }
     if (!$log) {
         $log[] = 'Nothing to do.';

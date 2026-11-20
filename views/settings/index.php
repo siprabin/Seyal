@@ -392,7 +392,7 @@ $tabLabels = [
     <div class="card h-100">
       <div class="card-header"><?= e(t('System information')) ?></div>
       <ul class="list-group list-group-flush small">
-        <li class="list-group-item d-flex"><span class="text-muted"><?= e(t('App version')) ?></span><span class="ms-auto"><?= e(APP_VERSION) ?></span></li>
+        <li class="list-group-item d-flex"><span class="text-muted"><?= e(t('App version')) ?></span><span class="ms-auto"><?= e(APP_NAME) ?> <?= e(APP_VERSION) ?></span></li>
         <li class="list-group-item d-flex"><span class="text-muted">PHP</span><span class="ms-auto"><?= e(PHP_VERSION) ?></span></li>
         <li class="list-group-item d-flex"><span class="text-muted"><?= e(t('Database')) ?></span><span class="ms-auto"><?= e($dbVersion) ?></span></li>
         <li class="list-group-item d-flex"><span class="text-muted"><?= e(t('Uploads folder writable')) ?></span><span class="ms-auto"><?= $uploadsWritable ? '<span class="text-success">' . e(t('Yes')) . '</span>' : '<span class="text-danger">' . e(t('No')) . '</span>' ?></span></li>

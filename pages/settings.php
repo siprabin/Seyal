@@ -39,7 +39,7 @@ if (is_post()) {
             $fmt = in_array(input('date_format'), ['d-m-Y', 'd/m/Y', 'Y-m-d', 'm/d/Y', 'd M Y'], true) ? input('date_format') : 'd-m-Y';
             $name = mb_substr((string)input('company_name', ''), 0, 120);
             save_settings([
-                'company_name' => $name !== '' ? $name : 'Project Management',
+                'company_name' => $name !== '' ? $name : APP_NAME,
                 'timezone'     => $tz,
                 'date_format'  => $fmt,
                 'default_lang' => isset(SUPPORTED_LANGS[input('default_lang')]) ? input('default_lang') : 'en',
@@ -132,7 +132,7 @@ if (is_post()) {
 
         case 'teams_test':
             $err = teams_post([
-                card_text('✅ ' . t('Test message from :app', ['app' => setting('company_name', 'Project Management')]), ['weight' => 'Bolder', 'size' => 'Medium']),
+                card_text('✅ ' . t('Test message from :app', ['app' => setting('company_name', APP_NAME)]), ['weight' => 'Bolder', 'size' => 'Medium']),
                 card_text(t('Daily reports will appear in this channel.')),
                 card_facts([t('Sent by') => user()['name'], t('Time') => fmt_datetime(now())]),
             ]);

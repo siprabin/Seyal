@@ -1,7 +1,7 @@
 <?php
 /** Layout for client portal users: simple top bar, no internal navigation. */
 $u = user();
-$company = setting('company_name', 'Project Management');
+$company = setting('company_name', APP_NAME);
 ?><!doctype html>
 <html lang="<?= e(current_lang()) ?>" dir="<?= text_dir() ?>">
 <head>

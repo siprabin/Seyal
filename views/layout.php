@@ -1,7 +1,7 @@
 <?php
 /** Main signed-in layout: sidebar + top bar + content. */
 $u = user();
-$company = setting('company_name', 'Project Management');
+$company = setting('company_name', APP_NAME);
 $current = $_GET['p'] ?? 'dashboard';
 $updatePending = !empty($GLOBALS['APP_UPDATE_PENDING']);
 $myDay = (!$updatePending && daylog_enabled_for($u)) ? get_work_day((int)$u['id'], today()) : null;
@@ -75,7 +75,7 @@ $navBlock = function (array $items, ?string $heading = null) use ($current) {
       <?php $navBlock($peopleNav, t('People')); ?>
       <?php $navBlock($adminNav, t('Administration')); ?>
     </nav>
-    <div class="sidebar-foot small">v<?= e(APP_VERSION) ?></div>
+    <div class="sidebar-foot small"><?= e(APP_NAME) ?> v<?= e(APP_VERSION) ?></div>
   </aside>
 
   <div class="main">

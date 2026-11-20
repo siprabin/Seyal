@@ -6,6 +6,7 @@
 declare(strict_types=1);
 
 define('APP_ROOT', dirname(__DIR__));
+define('APP_NAME', 'Seyal');
 define('APP_VERSION', '3.0.0 (Phase 3)');
 
 $configFile = APP_ROOT . '/config/config.php';
@@ -48,7 +49,7 @@ date_default_timezone_set(setting('timezone', 'Asia/Kolkata'));
 if (PHP_SAPI !== 'cli') {
     $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
         || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
-    session_name('pmsid');
+    session_name('seyal_sid');
     session_set_cookie_params([
         'lifetime' => 0,
         'path'     => base_path() . '/',

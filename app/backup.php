@@ -28,7 +28,7 @@ function create_backup(string $reason = 'manual'): string
     $w = fn(string $s) => $gz ? gzwrite($fh, $s) : fwrite($fh, $s);
     $pdo = db();
     $dbName = (string)$pdo->query('SELECT DATABASE()')->fetchColumn();
-    $w("-- Project Management backup\n-- Database: $dbName\n-- Created: " . now() . "\n-- App version: " . APP_VERSION . "\n\n");
+    $w("-- Seyal backup\n-- Database: $dbName\n-- Created: " . now() . "\n-- App version: " . APP_VERSION . "\n\n");
     $w("SET NAMES utf8mb4;\nSET FOREIGN_KEY_CHECKS = 0;\nSET SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';\n\n");
 
     $tables = $pdo->query("SHOW FULL TABLES WHERE Table_type = 'BASE TABLE'")->fetchAll(PDO::FETCH_COLUMN);
@@ -93,7 +93,7 @@ function zip_uploads(): ?string
             $zip->addFile($f, 'uploads/' . basename($f));
         }
     }
-    $zip->addFromString('README.txt', "Task attachments from Project Management, " . now() . ".\nRestore by copying the files back into the app's uploads/ folder.\n");
+    $zip->addFromString('README.txt', "Task attachments from Seyal, " . now() . ".\nRestore by copying the files back into the app's uploads/ folder.\n");
     $zip->close();
     return $tmp;
 }

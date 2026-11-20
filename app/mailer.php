@@ -37,7 +37,7 @@ function send_mail($to, string $subject, string $html, ?string $text = null): ?s
         }
         $m->CharSet = 'UTF-8';
         $m->Timeout = 20;
-        $m->setFrom(setting('mail_from'), setting('mail_from_name', setting('company_name', 'Project Management')));
+        $m->setFrom(setting('mail_from'), setting('mail_from_name', setting('company_name', APP_NAME)));
         foreach ((array)$to as $addr) {
             $m->addAddress($addr);
         }
@@ -55,7 +55,7 @@ function send_mail($to, string $subject, string $html, ?string $text = null): ?s
 
 function mail_wrap(string $title, string $body): string
 {
-    $company = e(setting('company_name', 'Project Management'));
+    $company = e(setting('company_name', APP_NAME));
     $dir = text_dir();
     return '<!doctype html><html lang="' . current_lang() . '" dir="' . $dir . '"><body dir="' . $dir . '" style="margin:0;background:#f4f5f7;font-family:Segoe UI,Arial,sans-serif;color:#222;text-align:' . ($dir === 'rtl' ? 'right' : 'left') . '">'
         . '<div style="max-width:600px;margin:24px auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e3e5e8">'

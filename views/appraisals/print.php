@@ -12,7 +12,7 @@
 <div class="page">
   <div class="no-print mb-3 d-flex gap-2"><button class="btn btn-primary btn-sm" onclick="window.print()"><i class="bi bi-printer"></i> <?= e(t('Print / Save as PDF')) ?></button></div>
   <div class="d-flex border-bottom pb-2 mb-3">
-    <div><div class="fw-bold fs-5"><?= e(setting('company_name', 'Project Management')) ?></div><div class="text-muted"><?= e(t('Appraisal')) ?></div></div>
+    <div><div class="fw-bold fs-5"><?= e(setting('company_name', APP_NAME)) ?></div><div class="text-muted"><?= e(t('Appraisal')) ?></div></div>
     <div class="ms-auto text-end small text-muted"><?= e(fmt_datetime(now())) ?><br><?= appraisal_status_badge($a['status']) ?></div>
   </div>
   <h1 class="h4 mb-1"><?= e($a['title']) ?></h1>

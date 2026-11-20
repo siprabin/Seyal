@@ -1,6 +1,10 @@
-# Team Project Management
+# Seyal
 
-**A self-hosted project, daily-work and performance management app for teams — in plain PHP and MySQL.**
+**Plan it. Do it. Close the day.**
+
+**Seyal** is a free, open-source, self-hosted project, daily-work and performance management app for teams, written in plain PHP and MySQL.
+*Seyal* (செயல், pronounced **SAY-yal**) is the Tamil word for *action* or *work done*.
+
 No Composer, no Node.js, no build step: copy the files, open the browser, follow the installer.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -10,6 +14,8 @@ No Composer, no Node.js, no build step: copy the files, open the browser, follow
 [![Installation support](https://img.shields.io/badge/Installation%20support-Contact%20Fluxosoft-orange)](https://fluxosoft.com/contact)
 
 Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ordinary shared hosting (Hostinger, cPanel and similar).
+
+**Available in 9 languages:** English · हिन्दी (Hindi) · தமிழ் (Tamil) · ಕನ್ನಡ (Kannada) · తెలుగు (Telugu) · മലയാളം (Malayalam) · العربية (Arabic) · Deutsch (German) · Español (Spanish). Every user picks their own language. [See details](#languages).
 
 > 💬 **Need help installing or setting it up?** Send us a message at **[fluxosoft.com/contact](https://fluxosoft.com/contact)** — tell us your operating system or hosting provider and what you've tried, and we'll get back to you.
 
@@ -106,8 +112,8 @@ php -m | grep -Ei "pdo_mysql|mbstring|openssl|fileinfo|zip|zlib|curl"
 If you already have **PHP 8.1+** and a **MySQL/MariaDB** server running, you can try the app without configuring a web server:
 
 ```bash
-git clone https://github.com/<owner>/<repo>.git team-pm
-cd team-pm
+git clone https://github.com/siprabin/seyal.git
+cd seyal
 php -S 127.0.0.1:8000 server.php
 ```
 
@@ -124,12 +130,12 @@ Open **http://127.0.0.1:8000** and follow the installer ([step 4](#4-run-the-web
 **With git:**
 
 ```bash
-git clone https://github.com/<owner>/<repo>.git team-pm
+git clone https://github.com/siprabin/seyal.git
 ```
 
 **Without git:** on the GitHub page click **Code → Download ZIP** and extract it.
 
-You can install it at the web root (`https://pm.example.com/`) or in a sub-folder (`https://example.com/pm/`) — the app detects its own path.
+You can install it at the web root (`https://seyal.example.com/`) or in a sub-folder (`https://example.com/seyal/`) — the app detects its own path.
 
 ### 2. Prepare the database
 
@@ -146,9 +152,9 @@ sudo mysql
 ```
 
 ```sql
-CREATE DATABASE project_mgmt CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'pm_user'@'localhost' IDENTIFIED BY 'choose-a-strong-password';
-GRANT ALL PRIVILEGES ON project_mgmt.* TO 'pm_user'@'localhost';
+CREATE DATABASE seyal CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'seyal_user'@'localhost' IDENTIFIED BY 'choose-a-strong-password';
+GRANT ALL PRIVILEGES ON seyal.* TO 'seyal_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -156,8 +162,8 @@ Write down the four values — you will type them into the installer:
 
 | Value | Example |
 |---|---|
-| Database name | `project_mgmt` |
-| Username | `pm_user` |
+| Database name | `seyal` |
+| Username | `seyal_user` |
 | Password | `choose-a-strong-password` |
 | Host / port | `localhost` / `3306` |
 
@@ -173,7 +179,7 @@ Pick your platform. Each section ends with the URL to open for [step 4](#4-run-t
 
 1. Download and install **XAMPP** with PHP 8.1 or newer from [apachefriends.org](https://www.apachefriends.org/).
 2. Open the **XAMPP Control Panel** and click **Start** for **Apache** and **MySQL**.
-3. Copy the project folder to `C:\xampp\htdocs\pm` (any folder name works).
+3. Copy the project folder to `C:\xampp\htdocs\seyal` (any folder name works).
 4. Make sure these PHP extensions are enabled in `C:\xampp\php\php.ini` (remove the leading `;` if present), then restart Apache:
    ```ini
    extension=fileinfo
@@ -187,15 +193,15 @@ Pick your platform. Each section ends with the URL to open for [step 4](#4-run-t
    upload_max_filesize = 20M
    post_max_size = 25M
    ```
-6. Open **http://localhost/pm/**
+6. Open **http://localhost/seyal/**
 
 XAMPP's database login is usually user `root` with an **empty password**, host `localhost`, port `3306`.
 
-*To use it from other computers in your office:* allow Apache through Windows Defender Firewall (*Allow an app through firewall → Apache HTTP Server*), find this PC's IP with `ipconfig`, and open `http://<that-IP>/pm/`.
+*To use it from other computers in your office:* allow Apache through Windows Defender Firewall (*Allow an app through firewall → Apache HTTP Server*), find this PC's IP with `ipconfig`, and open `http://<that-IP>/seyal/`.
 
 **Option B — Laragon or WampServer**
 
-Both work the same way: put the folder in the web root (`C:\laragon\www\pm` or `C:\wamp64\www\pm`), start Apache + MySQL, enable the extensions above, and open `http://localhost/pm/`.
+Both work the same way: put the folder in the web root (`C:\laragon\www\seyal` or `C:\wamp64\www\seyal`), start Apache + MySQL, enable the extensions above, and open `http://localhost/seyal/`.
 
 **Option C — PHP only (evaluation):** install PHP from [windows.php.net](https://windows.php.net/download/) and MySQL/MariaDB, then use the [Quick start](#quick-start-try-it-in-5-minutes) command.
 
@@ -216,41 +222,41 @@ sudo mysql_secure_installation      # recommended
 **2. Put the app in place**
 
 ```bash
-sudo git clone https://github.com/<owner>/<repo>.git /var/www/team-pm
-# or: sudo unzip team-pm.zip -d /var/www/ && sudo mv /var/www/<extracted-folder> /var/www/team-pm
+sudo git clone https://github.com/siprabin/seyal.git /var/www/seyal
+# or: sudo unzip seyal.zip -d /var/www/ && sudo mv /var/www/<extracted-folder> /var/www/seyal
 ```
 
 **3. Give the web server write access** to the three folders the app writes to:
 
 ```bash
-cd /var/www/team-pm
+cd /var/www/seyal
 sudo chown -R www-data:www-data config uploads storage
 sudo chmod -R 775 config uploads storage
 ```
 
 **4. Create the database** as shown in [step 2](#2-prepare-the-database) (`sudo mysql`).
 
-**5. Configure Apache.** Create `/etc/apache2/sites-available/team-pm.conf`:
+**5. Configure Apache.** Create `/etc/apache2/sites-available/seyal.conf`:
 
 ```apache
 <VirtualHost *:80>
-    ServerName pm.example.com
-    DocumentRoot /var/www/team-pm
+    ServerName seyal.example.com
+    DocumentRoot /var/www/seyal
 
-    <Directory /var/www/team-pm>
+    <Directory /var/www/seyal>
         AllowOverride All
         Require all granted
     </Directory>
 
-    ErrorLog ${APACHE_LOG_DIR}/team-pm-error.log
-    CustomLog ${APACHE_LOG_DIR}/team-pm-access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/seyal-error.log
+    CustomLog ${APACHE_LOG_DIR}/seyal-access.log combined
 </VirtualHost>
 ```
 
 `AllowOverride All` is important — the app relies on its `.htaccess` files to keep `config/`, `storage/`, `uploads/` and the source folders private.
 
 ```bash
-sudo a2ensite team-pm
+sudo a2ensite seyal
 sudo a2enmod headers
 sudo a2dissite 000-default      # only if this is the only site on the server
 sudo systemctl reload apache2
@@ -260,10 +266,10 @@ sudo systemctl reload apache2
 
 ```bash
 sudo apt install -y certbot python3-certbot-apache
-sudo certbot --apache -d pm.example.com
+sudo certbot --apache -d seyal.example.com
 ```
 
-**7.** Open **https://pm.example.com/**
+**7.** Open **https://seyal.example.com/**
 
 <details>
 <summary><b>Fedora / RHEL / Rocky / AlmaLinux</b></summary>
@@ -271,8 +277,8 @@ sudo certbot --apache -d pm.example.com
 ```bash
 sudo dnf install -y httpd mariadb-server php php-mysqlnd php-mbstring php-xml php-zip php-curl unzip
 sudo systemctl enable --now httpd mariadb
-sudo git clone https://github.com/<owner>/<repo>.git /var/www/team-pm
-cd /var/www/team-pm
+sudo git clone https://github.com/siprabin/seyal.git /var/www/seyal
+cd /var/www/seyal
 sudo chown -R apache:apache config uploads storage
 sudo chmod -R 775 config uploads storage
 
@@ -281,7 +287,7 @@ sudo chcon -R -t httpd_sys_rw_content_t config uploads storage
 sudo setsebool -P httpd_can_network_connect 1
 ```
 
-Create `/etc/httpd/conf.d/team-pm.conf` with the same `<VirtualHost>` block as above (log paths `/var/log/httpd/...`), then `sudo systemctl reload httpd`. Open port 80/443 with `sudo firewall-cmd --permanent --add-service={http,https} && sudo firewall-cmd --reload`.
+Create `/etc/httpd/conf.d/seyal.conf` with the same `<VirtualHost>` block as above (log paths `/var/log/httpd/...`), then `sudo systemctl reload httpd`. Open port 80/443 with `sudo firewall-cmd --permanent --add-service={http,https} && sudo firewall-cmd --reload`.
 </details>
 
 <details>
@@ -292,8 +298,8 @@ Nginx does not read `.htaccess`, so the private folders must be blocked in the s
 ```nginx
 server {
     listen 80;
-    server_name pm.example.com;
-    root /var/www/team-pm;
+    server_name seyal.example.com;
+    root /var/www/seyal;
     index index.php;
     client_max_body_size 25m;
 
@@ -331,8 +337,8 @@ sudo mysql -u root
 #    → run the SQL from step 2, then type: exit
 
 # 3. Get the code and run it
-git clone https://github.com/<owner>/<repo>.git ~/team-pm
-cd ~/team-pm
+git clone https://github.com/siprabin/seyal.git ~/seyal
+cd ~/seyal
 php -S 127.0.0.1:8000 server.php
 ```
 
@@ -341,8 +347,8 @@ Open **http://127.0.0.1:8000**. This is fine for one person on one Mac. To share
 **Option B — MAMP or XAMPP for macOS**
 
 1. Install **[MAMP](https://www.mamp.info/)** (or XAMPP for macOS) and start the servers.
-2. Copy the folder into the web root: MAMP → `/Applications/MAMP/htdocs/pm`, XAMPP → `/Applications/XAMPP/htdocs/pm`.
-3. Open `http://localhost:8888/pm/` (MAMP) or `http://localhost/pm/` (XAMPP).
+2. Copy the folder into the web root: MAMP → `/Applications/MAMP/htdocs/seyal`, XAMPP → `/Applications/XAMPP/htdocs/seyal`.
+3. Open `http://localhost:8888/seyal/` (MAMP) or `http://localhost/seyal/` (XAMPP).
 
 MAMP's database login is user `root`, password `root`, host `localhost`, port **`8889`**.
 
@@ -355,11 +361,11 @@ chmod -R 775 config uploads storage
 #### Shared hosting (Hostinger, cPanel)
 
 1. **PHP version:** set PHP **8.2 or newer** (Hostinger: *hPanel → Advanced → PHP Configuration*; cPanel: *Select PHP Version* / *MultiPHP Manager*). Make sure `pdo_mysql`, `mbstring`, `fileinfo` and `zip` are ticked.
-2. **Database:** create a database and a user and assign the user to the database (Hostinger: *hPanel → Databases → MySQL Databases*; cPanel: *MySQL Database Wizard*). Note the full names — hosts add a prefix such as `u123456789_pm`.
-3. **Upload:** in *File Manager*, open `public_html` (or a sub-folder such as `public_html/pm`), upload the ZIP and *Extract* it. Make sure the files (`index.php`, `app/`, `install/` …) end up directly in that folder, not in a nested folder.
+2. **Database:** create a database and a user and assign the user to the database (Hostinger: *hPanel → Databases → MySQL Databases*; cPanel: *MySQL Database Wizard*). Note the full names — hosts add a prefix such as `u123456789_seyal`.
+3. **Upload:** in *File Manager*, open `public_html` (or a sub-folder such as `public_html/seyal`), upload the ZIP and *Extract* it. Make sure the files (`index.php`, `app/`, `install/` …) end up directly in that folder, not in a nested folder.
 4. **Permissions:** if needed, set `config/`, `uploads/` and `storage/` (and its sub-folders) to `755`.
 5. **SSL:** turn on the free SSL certificate (Hostinger: *Security → SSL*; cPanel: *SSL/TLS Status → Run AutoSSL*).
-6. Open `https://yourdomain.com/` (or `/pm/`).
+6. Open `https://yourdomain.com/` (or `/seyal/`).
 
 On shared hosting the database host is almost always **`localhost`**, port **`3306`**.
 
@@ -377,8 +383,8 @@ Every row must show **OK** (fileinfo is recommended but optional). If a row fail
 |---|---|
 | **Host** | Where MySQL runs. `localhost` for XAMPP, MAMP, Homebrew, most Linux servers and shared hosting. Use the server name or IP for a separate database server. If `localhost` gives *"No such file or directory"*, use **`127.0.0.1`** instead. |
 | **Port** | `3306` (MAMP: `8889`). |
-| **Database name** | The database from [step 2](#2-prepare-the-database), e.g. `project_mgmt` (on shared hosting the full prefixed name, e.g. `u123456789_pm`). |
-| **Username** | The database user, e.g. `pm_user` (XAMPP: `root`; MAMP: `root`). |
+| **Database name** | The database from [step 2](#2-prepare-the-database), e.g. `seyal` (on shared hosting the full prefixed name, e.g. `u123456789_seyal`). |
+| **Username** | The database user, e.g. `seyal_user` (XAMPP: `root`; MAMP: `root`). |
 | **Password** | That user's password (XAMPP: leave empty; MAMP: `root`). |
 
 Click **Test connection** first. It changes nothing and tells you exactly what's wrong:
@@ -415,12 +421,12 @@ return array (
   'db' => array (
     'host' => 'localhost',
     'port' => 3306,
-    'name' => 'project_mgmt',
-    'user' => 'pm_user',
+    'name' => 'seyal',
+    'user' => 'seyal_user',
     'pass' => 'choose-a-strong-password',
   ),
   'app_key'  => '…keep the existing value…',   // changing it makes saved SMTP/Teams passwords unreadable
-  'base_url' => 'https://pm.example.com',      // used in emails sent by the scheduler
+  'base_url' => 'https://seyal.example.com',      // used in emails sent by the scheduler
   'debug'    => false,                          // true shows error details — never on a live site
 );
 ```
@@ -456,7 +462,7 @@ Out of the box a **built-in scheduler** runs these jobs while people are using t
 sudo crontab -u www-data -e        # use "apache" on Fedora/RHEL
 ```
 ```cron
-*/5 * * * * /usr/bin/php /var/www/team-pm/cron.php > /dev/null 2>&1
+*/5 * * * * /usr/bin/php /var/www/seyal/cron.php > /dev/null 2>&1
 ```
 
 Run it as the web server user so the backup files it creates stay readable by the app.
@@ -467,7 +473,7 @@ Run it as the web server user so the backup files it creates stay readable by th
 crontab -e
 ```
 ```cron
-*/5 * * * * /opt/homebrew/bin/php /Users/<you>/team-pm/cron.php > /dev/null 2>&1
+*/5 * * * * /opt/homebrew/bin/php /Users/<you>/seyal/cron.php > /dev/null 2>&1
 ```
 
 (Intel Macs: `/usr/local/bin/php`; MAMP: `/Applications/MAMP/bin/php/php8.x.x/bin/php`.)
@@ -475,11 +481,11 @@ crontab -e
 **Windows** — in an *administrator* Command Prompt (adjust paths):
 
 ```bat
-schtasks /create /tn "Team PM Scheduler" /sc minute /mo 5 /ru SYSTEM ^
-  /tr "\"C:\xampp\php\php.exe\" \"C:\xampp\htdocs\pm\cron.php\""
+schtasks /create /tn "Seyal Scheduler" /sc minute /mo 5 /ru SYSTEM ^
+  /tr "\"C:\xampp\php\php.exe\" \"C:\xampp\htdocs\seyal\cron.php\""
 ```
 
-Or use *Task Scheduler → Create Task → Triggers: Daily, repeat every 5 minutes → Actions: Start a program* `C:\xampp\php\php.exe` with argument `"C:\xampp\htdocs\pm\cron.php"`.
+Or use *Task Scheduler → Create Task → Triggers: Daily, repeat every 5 minutes → Actions: Start a program* `C:\xampp\php\php.exe` with argument `"C:\xampp\htdocs\seyal\cron.php"`.
 
 **Shared hosting** — *hPanel → Advanced → Cron Jobs* (or cPanel *Cron Jobs*), every 5 minutes:
 
@@ -544,11 +550,11 @@ Several demo users start in another language (Anitha Hindi, Meena Tamil, Suresh 
 2. **Replace the files** with the new version — `git pull`, or copy the new files over the old ones. **Keep** `config/config.php`, `uploads/` and `storage/`.
    Example for Windows/XAMPP:
    ```powershell
-   robocopy "C:\path\to\new-version" "C:\xampp\htdocs\pm" /E /XD config uploads storage
+   robocopy "C:\path\to\new-version" "C:\xampp\htdocs\seyal" /E /XD config uploads storage
    ```
    Linux/macOS:
    ```bash
-   rsync -a --exclude config/config.php --exclude uploads/ --exclude storage/ new-version/ /var/www/team-pm/
+   rsync -a --exclude config/config.php --exclude uploads/ --exclude storage/ new-version/ /var/www/seyal/
    ```
 3. **Log in as Super Admin.** If the new version includes database changes you are taken to *Settings → System*; click **Run database updates**. Until then, other users see an "update in progress" message.
 4. Hard-refresh your browser (**Ctrl+F5** / **Cmd+Shift+R**).
@@ -626,15 +632,28 @@ On a client's page, use **Client portal access → Add a portal login**. Clients
 
 *Settings → Backup*: **Back up now** creates a full SQL dump (`.sql.gz`) in `storage/backups/`, downloadable from the same page. The nightly automatic backup keeps the last 14. **Download attachments (ZIP)** saves uploaded files, which are not in the database.
 
-**Restore:** create an empty database, import the `.sql.gz` file (phpMyAdmin → *Import*, or `gunzip < backup.sql.gz | mysql -u pm_user -p project_mgmt`), point `config/config.php` at it, and copy the attachments back into `uploads/`.
+**Restore:** create an empty database, import the `.sql.gz` file (phpMyAdmin → *Import*, or `gunzip < backup.sql.gz | mysql -u seyal_user -p seyal`), point `config/config.php` at it, and copy the attachments back into `uploads/`.
 </details>
 
 ---
 
 ## Languages
 
-**English, हिन्दी (Hindi), தமிழ் (Tamil), ಕನ್ನಡ (Kannada), తెలుగు (Telugu), മലയാളം (Malayalam), العربية (Arabic, right-to-left), Deutsch (German), Español (Spanish).**
+Seyal is fully translated into **9 languages**, so people in your team can each use it in the language they are most comfortable with:
 
+| # | Language | Native name | Code | Script / direction |
+|---|---|---|---|---|
+| 1 | English | English | `en` | Latin, left-to-right (default) |
+| 2 | Hindi | हिन्दी | `hi` | Devanagari, left-to-right |
+| 3 | Tamil | தமிழ் | `ta` | Tamil, left-to-right |
+| 4 | Kannada | ಕನ್ನಡ | `kn` | Kannada, left-to-right |
+| 5 | Telugu | తెలుగు | `te` | Telugu, left-to-right |
+| 6 | Malayalam | മലയാളം | `ml` | Malayalam, left-to-right |
+| 7 | Arabic | العربية | `ar` | Arabic, **right-to-left** |
+| 8 | German | Deutsch | `de` | Latin, left-to-right |
+| 9 | Spanish | Español | `es` | Latin, left-to-right |
+
+- The default language for the company is chosen in the installer and can be changed in *Settings*.
 - Each user picks a language from the menu in the top bar (also on the login page and the client portal). Emails are sent in the recipient's language.
 - Arabic mirrors the whole layout (menu, tables, charts, emails, exports).
 - Fonts for every script are bundled, so it works offline.

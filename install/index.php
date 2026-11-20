@@ -10,7 +10,7 @@ declare(strict_types=1);
 define('APP_ROOT', dirname(__DIR__));
 $configFile = APP_ROOT . '/config/config.php';
 
-session_name('pminstall');
+session_name('seyal_install');
 session_start();
 
 function h($v): string
@@ -223,7 +223,7 @@ if (!$installed && $_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$dbForm = $_SESSION['install_db_form'] ?? ['host' => 'localhost', 'port' => 3306, 'name' => 'project_mgmt', 'user' => 'root'];
+$dbForm = $_SESSION['install_db_form'] ?? ['host' => 'localhost', 'port' => 3306, 'name' => 'seyal', 'user' => 'root'];
 $adminForm = $_SESSION['install_admin_form'] ?? ['company' => '', 'name' => '', 'email' => '', 'lang' => 'en', 'timezone' => 'Asia/Kolkata'];
 $steps = ['check' => '1. Server check', 'database' => '2. Database', 'admin' => '3. Company & admin', 'done' => '4. Finished'];
 ?><!doctype html>
@@ -231,14 +231,14 @@ $steps = ['check' => '1. Server check', 'database' => '2. Database', 'admin' => 
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Install · Project Management</title>
+<title>Install · Seyal</title>
 <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
 <style>body{background:#f4f6f9}.wrap{max-width:720px;margin:2rem auto;padding:0 1rem}.steps .badge{font-weight:500}</style>
 </head>
 <body>
 <div class="wrap">
-  <h1 class="h4 mb-3"><i class="bi bi-grid-1x2-fill text-primary"></i> Project Management — Installation</h1>
+  <h1 class="h4 mb-3"><i class="bi bi-grid-1x2-fill text-primary"></i> Seyal — Installation</h1>
   <div class="steps d-flex flex-wrap gap-2 mb-3">
     <?php foreach ($steps as $k => $label): ?>
       <span class="badge rounded-pill <?= $k === $step ? 'bg-primary' : 'bg-light text-dark border' ?>"><?= h($label) ?></span>

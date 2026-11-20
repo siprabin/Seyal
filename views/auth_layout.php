@@ -1,4 +1,4 @@
-<?php $company = setting('company_name', 'Project Management'); ?><!doctype html>
+<?php $company = setting('company_name', APP_NAME); ?><!doctype html>
 <html lang="<?= e(current_lang()) ?>" dir="<?= text_dir() ?>">
 <head>
 <meta charset="utf-8">

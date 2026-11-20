@@ -25,7 +25,7 @@ $toolChart = [
 ];
 ?>
 <div class="page-head">
-  <h1><?= e(t('Management dashboard')) ?></h1>
+  <h1><?= e(t('Project Pulse')) ?></h1>
   <div class="actions small text-muted align-self-center"><?= e(fmt_date(today())) ?></div>
 </div>
 

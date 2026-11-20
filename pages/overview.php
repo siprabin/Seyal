@@ -1,6 +1,6 @@
 <?php
 /**
- * Management dashboard: project health (🟢🟡🔴, target vs forecast), today's attendance,
+ * Project Pulse (management dashboard): project health (🟢🟡🔴, target vs forecast), today's attendance,
  * overdue tasks and weekly AI usage — limited to the projects and people the viewer can see.
  */
 declare(strict_types=1);
@@ -63,7 +63,7 @@ $topAi = $people ? rows(
 $thisWeek = end($weeks);
 
 render('overview/index', [
-    'pageTitle' => t('Management dashboard'),
+    'pageTitle' => t('Project Pulse'),
     'projects' => $projects, 'health' => $health, 'ragCounts' => $ragCounts,
     'overdue' => $overdue, 'overdueTotal' => $overdueTotal,
     'attendance' => $attendance, 'weeks' => $weeks, 'tools' => $tools, 'topAi' => $topAi, 'thisWeek' => $thisWeek,

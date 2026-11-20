@@ -28,5 +28,6 @@
   </div>
   <div class="auth-powered"><?= powered_by_html() ?></div>
 </div>
+<script src="<?= asset('vendor/bootstrap/bootstrap.bundle.min.js') ?>"></script>
 </body>
 </html>

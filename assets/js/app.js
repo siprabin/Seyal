@@ -59,23 +59,30 @@
   if (!toggles.length) return;
   var placement = root.getAttribute('dir') === 'rtl' ? 'left' : 'right';
 
-  // When collapsed, each menu icon shows its label as a tooltip.
+  var desktop = window.matchMedia('(min-width: 992px)');
+  function iconsOnly() {   // on phones the menu is a full-width slide-in panel, never icons-only
+    return root.classList.contains('sidebar-collapsed') && desktop.matches;
+  }
+
+  // A menu item shows its full label as a tooltip when the menu is collapsed to icons,
+  // or when the label is too long for the menu and is cut off with "…".
   var tips = [];
   if (window.bootstrap) {
     document.querySelectorAll('.sidebar-nav .nav-link').forEach(function (link) {
       var label = link.querySelector('span:not(.badge)');
       if (!label) return;
       tips.push(new bootstrap.Tooltip(link, { title: label.textContent, placement: placement, trigger: 'hover focus' }));
+      link.addEventListener('show.bs.tooltip', function (e) {
+        var cutOff = label.scrollWidth > label.clientWidth + 1;
+        if (!iconsOnly() && !cutOff) e.preventDefault();
+      });
     });
   }
 
-  var desktop = window.matchMedia('(min-width: 992px)');
-
   function sync() {
     var collapsed = root.classList.contains('sidebar-collapsed');
-    var iconsOnly = collapsed && desktop.matches;   // on phones the menu is a full-width slide-in panel
     toggles.forEach(function (b) { b.setAttribute('aria-expanded', collapsed ? 'false' : 'true'); });
-    tips.forEach(function (t) { t.hide(); if (iconsOnly) { t.enable(); } else { t.disable(); } });
+    tips.forEach(function (t) { t.hide(); });
   }
   if (desktop.addEventListener) desktop.addEventListener('change', sync);
 

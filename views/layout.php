@@ -8,7 +8,7 @@ $myDay = (!$updatePending && daylog_enabled_for($u)) ? get_work_day((int)$u['id'
 $hasTeam = !$updatePending && team_member_ids();
 $nav = [
     ['dashboard', 'bi-speedometer2', t('Dashboard'), true],
-    ['overview', 'bi-bar-chart-line', t('Management dashboard'), !$updatePending && ($hasTeam || can('projects.view_all') || can('reports.view'))],
+    ['overview', 'bi-activity', t('Project Pulse'), !$updatePending && ($hasTeam || can('projects.view_all') || can('reports.view'))],
     ['myday', 'bi-sunrise', t('My Day'), !$updatePending],
     ['team', 'bi-people-fill', t('Team Day'), $hasTeam],
     ['mytasks', 'bi-check2-square', t('My Tasks'), true],

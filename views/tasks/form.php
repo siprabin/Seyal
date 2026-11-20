@@ -78,7 +78,7 @@ $userOption = fn($u, $sel) => '<option value="' . (int)$u['id'] . '"' . selected
       <?php endif; ?>
       <div class="col-md-6">
         <label class="form-label" for="estimated_hours"><?= e(t('Estimated hours')) ?></label>
-        <input type="number" class="form-control" id="estimated_hours" name="estimated_hours" min="0" max="9999" step="0.25" value="<?= e($v('estimated_hours') !== null ? rtrim(rtrim((string)$v('estimated_hours'), '0'), '.') : '') ?>">
+        <input type="number" class="form-control" id="estimated_hours" name="estimated_hours" min="0" max="9999" step="any" value="<?= e($v('estimated_hours') !== null ? rtrim(rtrim((string)$v('estimated_hours'), '0'), '.') : '') ?>">
       </div>
       <div class="col-6 col-md-3">
         <label class="form-label" for="start_date"><?= e(t('Start date')) ?></label>

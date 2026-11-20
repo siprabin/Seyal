@@ -104,7 +104,7 @@ $taskOption = function ($t) use ($selTask) {
           <div class="row g-2 mb-3">
             <div class="col-5">
               <label class="form-label" for="hours"><?= e(t('Hours')) ?> <span class="text-danger">*</span></label>
-              <input type="number" class="form-control" id="hours" name="hours" min="0.1" max="24" step="0.25" value="<?= e($v('hours') !== '' ? fmt_hours((float)$v('hours')) : '') ?>" required>
+              <input type="number" class="form-control" id="hours" name="hours" min="0.1" max="24" step="any" value="<?= e($v('hours') !== '' ? fmt_hours((float)$v('hours')) : '') ?>" required>
             </div>
             <div class="col-7">
               <label class="form-label" for="task_status"><?= e(t('Task status now')) ?></label>
@@ -133,11 +133,11 @@ $taskOption = function ($t) use ($selTask) {
               <div class="row g-2 mb-2">
                 <div class="col-6">
                   <label class="form-label small mb-1" for="ai_minutes"><?= e(t('Minutes using AI')) ?></label>
-                  <input type="number" class="form-control form-control-sm" id="ai_minutes" name="ai_minutes" min="0" max="1440" step="5" value="<?= e($v('ai_minutes') ?: '') ?>">
+                  <input type="number" class="form-control form-control-sm" id="ai_minutes" name="ai_minutes" min="0" max="1440" step="1" value="<?= e($v('ai_minutes') ?: '') ?>">
                 </div>
                 <div class="col-6">
                   <label class="form-label small mb-1" for="time_saved_minutes"><?= e(t('Minutes saved')) ?></label>
-                  <input type="number" class="form-control form-control-sm" id="time_saved_minutes" name="time_saved_minutes" min="0" max="1440" step="5" value="<?= e($v('time_saved_minutes') ?: '') ?>">
+                  <input type="number" class="form-control form-control-sm" id="time_saved_minutes" name="time_saved_minutes" min="0" max="1440" step="1" value="<?= e($v('time_saved_minutes') ?: '') ?>">
                 </div>
               </div>
               <div class="mb-2">

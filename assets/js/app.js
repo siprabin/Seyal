@@ -51,6 +51,44 @@
   }
 })();
 
+/* Collapsible sidebar on desktop. The state is kept per browser; <head> applies it before the page paints. */
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var toggles = document.querySelectorAll('[data-sidebar-toggle]');
+  if (!toggles.length) return;
+  var placement = root.getAttribute('dir') === 'rtl' ? 'left' : 'right';
+
+  // When collapsed, each menu icon shows its label as a tooltip.
+  var tips = [];
+  if (window.bootstrap) {
+    document.querySelectorAll('.sidebar-nav .nav-link').forEach(function (link) {
+      var label = link.querySelector('span:not(.badge)');
+      if (!label) return;
+      tips.push(new bootstrap.Tooltip(link, { title: label.textContent, placement: placement, trigger: 'hover focus' }));
+    });
+  }
+
+  var desktop = window.matchMedia('(min-width: 992px)');
+
+  function sync() {
+    var collapsed = root.classList.contains('sidebar-collapsed');
+    var iconsOnly = collapsed && desktop.matches;   // on phones the menu is a full-width slide-in panel
+    toggles.forEach(function (b) { b.setAttribute('aria-expanded', collapsed ? 'false' : 'true'); });
+    tips.forEach(function (t) { t.hide(); if (iconsOnly) { t.enable(); } else { t.disable(); } });
+  }
+  if (desktop.addEventListener) desktop.addEventListener('change', sync);
+
+  toggles.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var collapsed = root.classList.toggle('sidebar-collapsed');
+      try { localStorage.setItem('seyal.sidebar', collapsed ? 'collapsed' : 'expanded'); } catch (e) {}
+      sync();
+    });
+  });
+  sync();
+})();
+
 /* Show/hide a block with a switch: <input data-toggle-target="#id"> */
 (function () {
   'use strict';

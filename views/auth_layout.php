@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="<?= asset(is_rtl() ? 'vendor/bootstrap/bootstrap.rtl.min.css' : 'vendor/bootstrap/bootstrap.min.css') ?>">
 <link rel="stylesheet" href="<?= asset('vendor/bootstrap-icons/bootstrap-icons.min.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
+<?= head_icons() ?>
 </head>
 <body class="auth-body">
 <div class="auth-wrap">
@@ -16,7 +17,7 @@
   <div class="card shadow-sm">
     <div class="card-body p-4">
       <div class="text-center mb-4">
-        <div class="auth-logo"><i class="bi bi-grid-1x2-fill"></i></div>
+        <img src="<?= asset('img/logo-mark.svg') ?>" alt="" class="auth-logo" width="56" height="56">
         <h1 class="h5 mb-0"><?= e($company) ?></h1>
       </div>
       <?php foreach (flashes() as $f): ?>
@@ -25,6 +26,7 @@
       <?= $content ?>
     </div>
   </div>
+  <div class="auth-powered"><img src="<?= asset('img/logo-mark.svg') ?>" alt="" width="16" height="16"> <?= e(APP_NAME) ?></div>
 </div>
 </body>
 </html>

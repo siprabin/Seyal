@@ -60,13 +60,15 @@ $navBlock = function (array $items, ?string $heading = null) use ($current) {
 <link rel="stylesheet" href="<?= asset(is_rtl() ? 'vendor/bootstrap/bootstrap.rtl.min.css' : 'vendor/bootstrap/bootstrap.min.css') ?>">
 <link rel="stylesheet" href="<?= asset('vendor/bootstrap-icons/bootstrap-icons.min.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
+<?= head_icons() ?>
+<script>try { if (localStorage.getItem('seyal.sidebar') === 'collapsed') document.documentElement.classList.add('sidebar-collapsed'); } catch (e) {}</script>
 </head>
 <body>
 <div class="app">
   <aside class="sidebar offcanvas-lg offcanvas-start" id="sidebar" tabindex="-1">
     <div class="sidebar-brand">
-      <i class="bi bi-grid-1x2-fill"></i>
-      <span class="text-truncate"><?= e($company) ?></span>
+      <img src="<?= asset('img/logo-mark.svg') ?>" alt="" class="brand-mark" width="30" height="30">
+      <span class="brand-name text-truncate"><?= e($company) ?></span>
       <button type="button" class="btn-close btn-close-white d-lg-none ms-auto" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="<?= e(t('Close')) ?>"></button>
     </div>
     <nav class="sidebar-nav">
@@ -75,12 +77,12 @@ $navBlock = function (array $items, ?string $heading = null) use ($current) {
       <?php $navBlock($peopleNav, t('People')); ?>
       <?php $navBlock($adminNav, t('Administration')); ?>
     </nav>
-    <div class="sidebar-foot small"><?= e(APP_NAME) ?> v<?= e(APP_VERSION) ?></div>
   </aside>
 
   <div class="main">
     <header class="topbar">
       <button class="btn btn-link text-body d-lg-none px-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-label="<?= e(t('Menu')) ?>"><i class="bi bi-list fs-4"></i></button>
+      <button class="btn btn-link text-body d-none d-lg-inline-flex px-1 sidebar-toggle" type="button" data-sidebar-toggle aria-controls="sidebar" aria-expanded="true" aria-label="<?= e(t('Menu')) ?>" title="<?= e(t('Menu')) ?>"><i class="bi bi-list fs-4"></i></button>
       <div class="topbar-title text-truncate"><?= e($pageTitle) ?></div>
       <div class="ms-auto d-flex align-items-center gap-2">
         <?php if (!$updatePending && daylog_enabled_for($u)): ?>
@@ -108,6 +110,8 @@ $navBlock = function (array $items, ?string $heading = null) use ($current) {
                 <button class="dropdown-item"><i class="bi bi-box-arrow-right me-2"></i><?= e(t('Log out')) ?></button>
               </form>
             </li>
+            <li><hr class="dropdown-divider"></li>
+            <li><span class="dropdown-item-text small text-muted ltr"><?= e(APP_NAME) ?> v<?= e(APP_VERSION) ?></span></li>
           </ul>
         </div>
       </div>

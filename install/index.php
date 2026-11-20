@@ -234,11 +234,12 @@ $steps = ['check' => '1. Server check', 'database' => '2. Database', 'admin' => 
 <title>Install · Seyal</title>
 <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <style>body{background:#f4f6f9}.wrap{max-width:720px;margin:2rem auto;padding:0 1rem}.steps .badge{font-weight:500}</style>
 </head>
 <body>
 <div class="wrap">
-  <h1 class="h4 mb-3"><i class="bi bi-grid-1x2-fill text-primary"></i> Seyal — Installation</h1>
+  <h1 class="h4 mb-3 d-flex align-items-center gap-2"><img src="../assets/img/logo-mark.svg" alt="" width="36" height="36"> Seyal — Installation</h1>
   <div class="steps d-flex flex-wrap gap-2 mb-3">
     <?php foreach ($steps as $k => $label): ?>
       <span class="badge rounded-pill <?= $k === $step ? 'bg-primary' : 'bg-light text-dark border' ?>"><?= h($label) ?></span>

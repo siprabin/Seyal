@@ -329,6 +329,7 @@ $steps = ['check' => '1. Server check', 'database' => '2. Database', 'admin' => 
     <form method="post" class="mt-2"><input type="hidden" name="_csrf" value="<?= h($csrf) ?>"><input type="hidden" name="go" value="back"><button class="btn btn-link btn-sm px-0">&larr; Change database details</button></form>
   <?php endif; ?>
   </div></div>
+  <p class="text-center text-muted small mt-3">Powered by <a href="https://github.com/siprabin/seyal" class="text-muted fw-semibold" target="_blank" rel="noopener">Seyal</a> - <a href="https://fluxosoft.com" class="text-muted fw-semibold" target="_blank" rel="noopener">Fluxosoft</a></p>
 </div>
 </body>
 </html>

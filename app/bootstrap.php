@@ -8,6 +8,11 @@ declare(strict_types=1);
 define('APP_ROOT', dirname(__DIR__));
 define('APP_NAME', 'Seyal');
 define('APP_VERSION', '3.0.0 (Phase 3)');
+// Product credit, shown on every page, printout, export, email and Teams message (see powered_by()).
+define('APP_AUTHOR', 'Fluxosoft');
+define('APP_AUTHOR_URL', 'https://fluxosoft.com');
+define('APP_SUPPORT_URL', 'https://fluxosoft.com/contact');
+define('APP_REPO_URL', 'https://github.com/siprabin/seyal');
 
 $configFile = APP_ROOT . '/config/config.php';
 if (!is_file($configFile)) {

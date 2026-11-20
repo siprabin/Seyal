@@ -25,6 +25,7 @@ $company = setting('company_name', APP_NAME);
         <ul class="dropdown-menu dropdown-menu-end">
           <li><a class="dropdown-item" href="<?= e(url('portal')) ?>"><i class="bi bi-kanban me-2"></i><?= e(t('My projects')) ?></a></li>
           <li><a class="dropdown-item" href="<?= e(url('profile')) ?>"><i class="bi bi-key me-2"></i><?= e(t('Change password')) ?></a></li>
+          <li><a class="dropdown-item" href="<?= e(url('about')) ?>"><i class="bi bi-info-circle me-2"></i><?= e(t('About :app', ['app' => APP_NAME])) ?></a></li>
           <li><hr class="dropdown-divider"></li>
           <li><form method="post" action="<?= e(url('logout')) ?>"><?= csrf_field() ?><button class="dropdown-item"><i class="bi bi-box-arrow-right me-2"></i><?= e(t('Log out')) ?></button></form></li>
         </ul>
@@ -38,6 +39,10 @@ $company = setting('company_name', APP_NAME);
   <?php endforeach; ?>
   <?= $content ?>
 </main>
+<footer class="container app-footer border-0">
+  <span>&copy; <?= date('Y') ?> <?= e($company) ?></span>
+  <?= powered_by_html() ?>
+</footer>
 <script src="<?= asset('vendor/bootstrap/bootstrap.bundle.min.js') ?>"></script>
 <script src="<?= asset('js/app.js') ?>"></script>
 </body>

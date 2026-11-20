@@ -259,7 +259,7 @@ $steps = ['check' => '1. Server check', 'database' => '2. Database', 'admin' => 
     <div class="alert alert-info small mb-3">
       <strong>Next steps</strong>
       <ol class="mb-0 ps-3">
-        <li>Open <em>Settings → Email</em> and enter your SMTP details (needed for “Forgot password” and, in Phase 2, daily reports).</li>
+        <li>Open <em>Settings → Email</em> and enter your SMTP details (needed for “Forgot password” and daily reports).</li>
         <li>Add departments, then users (set each person's <em>Reports to</em>).</li>
         <li>Optional: <em>Settings → Demo data</em> loads a sample company to try things out.</li>
         <li>For extra safety, delete <code>install/index.php</code> (keep the <code>install/migrations</code> folder).</li>

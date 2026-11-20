@@ -49,7 +49,7 @@ body { background: var(--app-bg); font-size: .925rem; }
 .sidebar-nav::-webkit-scrollbar-thumb { background: transparent; border-radius: 3px; }
 .sidebar-nav:hover::-webkit-scrollbar-thumb { background: rgba(255,255,255,.25); }
 .sidebar-nav .nav-link { position: relative; display: flex; gap: .7rem; align-items: center; color: var(--app-sidebar-fg); border-radius: .4rem; padding: .45rem .75rem; margin-bottom: 2px; white-space: nowrap; }
-.sidebar-nav .nav-link > span:not(.badge) { overflow: hidden; text-overflow: ellipsis; }
+.sidebar-nav .nav-link > span:not(.badge) { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .sidebar-nav .nav-link:hover { background: rgba(255,255,255,.07); color: #fff; }
 .sidebar-nav .nav-link.active { background: rgba(255,255,255,.14); color: #fff; font-weight: 600; }
 .sidebar-nav .nav-link i { font-size: 1.05rem; width: 1.2rem; text-align: center; flex-shrink: 0; }

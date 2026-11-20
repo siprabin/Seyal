@@ -149,6 +149,12 @@ switch ($action) {
             'inProject' => $inProject, 'others' => $others,
             'canAssign' => $canAssign,
             'fixedAssignee' => $task ? user_name($task['assignee_id'] ? (int)$task['assignee_id'] : null) : (string)user()['name'],
+            // Values typed in a quick-add row before "More options" (new tasks only).
+            'prefill' => $task ? [] : array_filter([
+                'title'       => mb_substr((string)input('title', ''), 0, 255),
+                'assignee_id' => input_int('assignee_id') ?: null,
+                'due_date'    => input_date('due_date'),
+            ], fn($x) => $x !== null && $x !== ''),
         ]);
         break;
 

@@ -45,6 +45,21 @@
     });
   };
 
+  // Link that takes what was typed in its form along: <a href="…" data-carry="title,due_date">
+  // (e.g. "More options" next to the quick-add subtask row opens the full form already filled in).
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest ? e.target.closest('a[data-carry]') : null;
+    var form = link && link.closest('form');
+    if (!form) return;
+    var url = new URL(link.href, window.location.href);
+    link.getAttribute('data-carry').split(',').forEach(function (name) {
+      var field = form.elements[name.trim()];
+      if (field && field.value !== '') url.searchParams.set(name.trim(), field.value);
+    });
+    e.preventDefault();
+    window.location.href = url.toString();
+  });
+
   // Enable Bootstrap tooltips.
   if (window.bootstrap) {
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) { new bootstrap.Tooltip(el); });

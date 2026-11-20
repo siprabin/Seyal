@@ -152,9 +152,10 @@ function day_totals(array $entries): array
     return $t;
 }
 
+/** Hours always with two decimals (0.30, 1.50, 8.00), matching how they are entered. */
 function fmt_hours(float $h): string
 {
-    return rtrim(rtrim(number_format($h, 2, '.', ''), '0'), '.') ?: '0';
+    return number_format($h, 2, '.', '');
 }
 
 function fmt_minutes(int $m): string

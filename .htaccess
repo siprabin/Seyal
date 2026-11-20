@@ -1,0 +1,20 @@
+# Project Management app
+DirectoryIndex index.php
+Options -Indexes
+
+# Never serve hidden files, SQL, logs or markdown directly.
+<FilesMatch "(^\.|\.(sql|log|md|ini|bak)$)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# Generous limits for file attachments (ignored where the host does not allow it).
+<IfModule mod_php.c>
+    php_value upload_max_filesize 20M
+    php_value post_max_size 25M
+</IfModule>

@@ -50,16 +50,21 @@ $userOption = fn($u) => '<option value="' . (int)$u['id'] . '">' . e($u['name'])
           <input type="hidden" name="status" value="todo"><input type="hidden" name="priority" value="<?= e($task['priority']) ?>"><input type="hidden" name="weightage" value="<?= (int)$task['weightage'] ?>">
           <div class="col-md-5"><input class="form-control form-control-sm" name="title" placeholder="<?= e(t('Quick add a subtask…')) ?>" required maxlength="255"></div>
           <div class="col-6 col-md-3">
+            <?php if ($canManage): ?>
             <select class="form-select form-select-sm" name="assignee_id" aria-label="<?= e(t('Assignee')) ?>">
               <option value=""><?= e(t('Unassigned')) ?></option>
               <?php foreach ($inProject as $u): ?><option value="<?= (int)$u['id'] ?>"<?= selected($task['assignee_id'], $u['id']) ?>><?= e($u['name']) ?></option><?php endforeach; ?>
-              <?php if ($canManage) foreach ($others as $u) echo $userOption($u); ?>
+              <?php foreach ($others as $u) echo $userOption($u); ?>
             </select>
+            <?php else: ?>
+            <?php /* Team members' subtasks are always assigned to themselves (enforced on the server). */ ?>
+            <div class="form-control form-control-sm bg-light text-truncate" title="<?= e(t('Tasks you add are assigned to you.')) ?>"><i class="bi bi-person"></i> <?= e(user()['name']) ?></div>
+            <?php endif; ?>
           </div>
           <div class="col-6 col-md-2"><input type="date" class="form-control form-control-sm" name="due_date" value="<?= e($task['due_date']) ?>" aria-label="<?= e(t('Due date')) ?>"></div>
           <div class="col-md-2 d-flex gap-1">
             <button class="btn btn-sm btn-primary flex-grow-1"><?= e(t('Add')) ?></button>
-            <a class="btn btn-sm btn-outline-secondary" href="<?= e(url('tasks', ['a' => 'create', 'parent' => $task['id']])) ?>" title="<?= e(t('More options')) ?>"><i class="bi bi-sliders"></i></a>
+            <a class="btn btn-sm btn-outline-secondary" href="<?= e(url('tasks', ['a' => 'create', 'parent' => $task['id']])) ?>" data-carry="title,assignee_id,due_date" title="<?= e(t('More options')) ?>"><i class="bi bi-sliders"></i></a>
           </div>
         </form>
       </div>

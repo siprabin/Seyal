@@ -1,6 +1,7 @@
 <?php
 $tk = $task ?? [];
-$v = fn($k, $d = '') => old($k, $tk[$k] ?? $d);
+$prefill = $prefill ?? [];
+$v = fn($k, $d = '') => old($k, $tk[$k] ?? $prefill[$k] ?? $d);
 $cancel = $task ? url('tasks', ['a' => 'view', 'id' => $task['id']])
     : ($parent ? url('tasks', ['a' => 'view', 'id' => $parent['id']]) : url('projects', ['a' => 'view', 'id' => $project['id']]));
 $userOption = fn($u, $sel) => '<option value="' . (int)$u['id'] . '"' . selected($sel, $u['id']) . '>' . e($u['name']) . ($u['designation'] ? ' — ' . e($u['designation']) : '') . '</option>';

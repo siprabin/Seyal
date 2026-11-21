@@ -30,15 +30,12 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 
 > 💬 **Need help installing or setting it up?** Send us a message at **[fluxosoft.com/contact](https://fluxosoft.com/contact)** — tell us your operating system or hosting provider and what you've tried, and we'll get back to you.
 
-![Seyal Project Pulse dashboard](docs/screenshots/project-pulse.png)
-
 ---
 
 ## Contents
 
 - [Screenshots](#screenshots)
 - [Features](#features)
-- [Screenshots](#screenshots)
 - [Requirements](#requirements)
 - [Quick start (try it in 5 minutes)](#quick-start-try-it-in-5-minutes)
 - [Installation](#installation)
@@ -88,11 +85,23 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 
 <table>
 <tr>
-<td width="50%"><b>Org chart</b>, built from each person's "Reports to"<br><img src="docs/screenshots/org-chart.png" alt="Seyal org chart showing the reporting hierarchy from operations director to department heads and team members"></td>
-<td width="50%"><b>Every user picks their language</b>: My Day in Tamil<br><img src="docs/screenshots/my-day-tamil.png" alt="Seyal My Day screen displayed in Tamil after the day is closed"></td>
+<td width="65%"><b>Org chart</b>, built automatically from each person's "Reports to"<br><img src="docs/screenshots/org-chart.png" alt="Seyal org chart showing the reporting hierarchy from operations director to department heads and team members"></td>
+<td width="35%" align="center"><b>Works on phones</b>: add it to the home screen like an app<br><img src="docs/screenshots/mobile-my-day.png" alt="Seyal My Day screen on a phone with the Close Day button and Log work form" width="240"></td>
 </tr>
 </table>
 
+**Every user picks their own language**, including full right-to-left Arabic:
+
+<table>
+<tr>
+<td width="50%"><b>Tamil</b><br><img src="docs/screenshots/tamil-dashboard.png" alt="Seyal dashboard in Tamil"></td>
+<td width="50%"><b>Hindi</b><br><img src="docs/screenshots/hindi-dashboard.png" alt="Seyal dashboard in Hindi with My Day, team status and project progress"></td>
+</tr>
+<tr>
+<td><b>Arabic</b> (right-to-left layout)<br><img src="docs/screenshots/arabic-dashboard.png" alt="Seyal dashboard in Arabic with a right-to-left layout and the sidebar on the right"></td>
+<td><b>Spanish</b><br><img src="docs/screenshots/spanish-dashboard.png" alt="Seyal dashboard in Spanish"></td>
+</tr>
+</table>
 
 ---
 

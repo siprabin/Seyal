@@ -7,7 +7,7 @@ $ext = fn(string $u, ?string $text = null) => '<a href="' . e($u) . '" target="_
     <div class="card shadow-sm mb-3">
       <div class="card-body p-4 text-center">
         <img src="<?= asset('img/logo-mark.svg') ?>" alt="" width="72" height="72" class="mb-3" style="border-radius:16px">
-        <h1 class="h3 mb-1"><?= e(APP_NAME) ?> <span class="text-muted fs-6">(செயல்)</span></h1>
+        <h1 class="h3 mb-1"><?= e(APP_NAME) ?></h1>
         <p class="text-muted mb-2" dir="ltr">Plan it. Do it. Close the day.</p>
         <p class="mb-0 small"><?= powered_by_html(false) ?></p>
       </div>

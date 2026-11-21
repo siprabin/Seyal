@@ -1,3 +1,10 @@
+<p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/img/logo-white.svg">
+    <img src="assets/img/logo.svg" alt="Seyal" height="64">
+  </picture>
+</p>
+
 # Seyal
 
 **Plan it. Do it. Close the day.**
@@ -19,10 +26,13 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 
 > 💬 **Need help installing or setting it up?** Send us a message at **[fluxosoft.com/contact](https://fluxosoft.com/contact)** — tell us your operating system or hosting provider and what you've tried, and we'll get back to you.
 
+![Seyal Project Pulse dashboard](docs/screenshots/project-pulse.png)
+
 ---
 
 ## Contents
 
+- [Screenshots](#screenshots)
 - [Features](#features)
 - [Requirements](#requirements)
 - [Quick start (try it in 5 minutes)](#quick-start-try-it-in-5-minutes)
@@ -53,12 +63,45 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 
 ---
 
+## Screenshots
+
+*All screenshots use the built-in [demo data](#demo-data).*
+
+<table>
+  <tr>
+    <td width="50%"><a href="docs/screenshots/dashboard.png"><img src="docs/screenshots/dashboard.png" alt="Dashboard"></a><br><b>Dashboard</b> — your day, your team today, open and overdue tasks, project progress</td>
+    <td width="50%"><a href="docs/screenshots/my-day.png"><img src="docs/screenshots/my-day.png" alt="My Day"></a><br><b>My Day</b> — Start Day, log work per task with AI usage, then Close Day</td>
+  </tr>
+  <tr>
+    <td><a href="docs/screenshots/team-day.png"><img src="docs/screenshots/team-day.png" alt="Team Day"></a><br><b>Team Day</b> — who is working, closed or not started, with hours, AI time and blockers</td>
+    <td><a href="docs/screenshots/kanban.png"><img src="docs/screenshots/kanban.png" alt="Kanban board"></a><br><b>Kanban board</b> — drag-and-drop tasks with priority, due date and weightage</td>
+  </tr>
+  <tr>
+    <td><a href="docs/screenshots/performance.png"><img src="docs/screenshots/performance.png" alt="Performance"></a><br><b>Performance</b> — scores from weightage × quality × on-time, plus hours and AI time saved</td>
+    <td><a href="docs/screenshots/org-chart.png"><img src="docs/screenshots/org-chart.png" alt="Org chart"></a><br><b>Org chart</b> — built automatically from each person's "Reports to"</td>
+  </tr>
+  <tr>
+    <td><a href="docs/screenshots/tamil-dashboard.png"><img src="docs/screenshots/tamil-dashboard.png" alt="Dashboard in Tamil"></a><br><b>Tamil</b> — every user picks their own language</td>
+    <td><a href="docs/screenshots/hindi-dashboard.png"><img src="docs/screenshots/hindi-dashboard.png" alt="Dashboard in Hindi"></a><br><b>Hindi</b></td>
+  </tr>
+  <tr>
+    <td><a href="docs/screenshots/arabic-dashboard.png"><img src="docs/screenshots/arabic-dashboard.png" alt="Dashboard in Arabic"></a><br><b>Arabic</b> — full right-to-left layout</td>
+    <td><a href="docs/screenshots/spanish-dashboard.png"><img src="docs/screenshots/spanish-dashboard.png" alt="Dashboard in Spanish"></a><br><b>Spanish</b></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><a href="docs/screenshots/mobile-my-day.png"><img src="docs/screenshots/mobile-my-day.png" alt="My Day on a phone" width="260"></a><br><b>Works on phones</b> — add it to the home screen like an app</td>
+  </tr>
+</table>
+
+---
+
 ## Features
 
 **Projects & tasks**
 - Projects → tasks → subtasks with assignee, priority, **weightage (1–5)**, estimated hours, start and due dates
 - List view and drag-and-drop **Kanban board**, comments, file attachments
 - Clients, or mark a project as *Internal*
+- Optional per project: **team members add their own tasks** (always assigned to themselves; only managers assign work to others or set weightage)
 - **Audit log** of every change — changing a due date requires a reason
 
 **People & access**
@@ -69,10 +112,11 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 - **My Day:** Start Day → log work per task (hours, blockers, **AI usage**: tools, minutes, purpose, time saved, output quality) → **Close Day**
 - Close Day summary is emailed to the manager and posted to **Microsoft Teams**
 - **Team Day** for managers: who is working, closed, late or not started
+- Optional **location at Start Day and Close Day**, shown as map pins in Team Day
 - Automatic reminders, manager digests, auto-close and "not started" flags
 
 **Performance**
-- **Management dashboard:** 🟢🟡🔴 project health with forecast vs target date, attendance strip, overdue tasks, weekly AI usage charts
+- **Project Pulse** (management dashboard): 🟢🟡🔴 project health with forecast vs target date, attendance strip, overdue tasks, weekly AI usage charts
 - **Task ratings** by the direct manager, **weekly reviews**
 - **Performance score** (weightage × quality × on-time) with 12-month trend charts
 - **Appraisals:** Draft → Finalised → Published; employees see their score only once published
@@ -82,7 +126,9 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 - **Reports** (timesheets, AI usage, project status, performance, attendance) with **Excel / CSV / PDF** export
 - One-click and nightly **database backup**
 - **9 languages**, including right-to-left Arabic
-- Built-in installer, demo data, update screen
+- Works on phones; **add it to the home screen** and it opens like an app, with its own icon
+- Collapsible side menu (icons only, names as tooltips)
+- Built-in installer, demo data, update screen, *About* page
 
 ---
 
@@ -586,11 +632,13 @@ The Super Admin can change permissions under **Roles & Permissions**. Whatever t
 <summary><b>Daily work: My Day and Team Day</b></summary>
 
 **My Day (everyone)**
-1. **Start Day** records the start time.
+1. **Start Day** records the start time (and the location, if switched on — see below).
 2. **Log work** for each piece of work: task (or *Other work*), what you did, hours, blockers, and optionally a new task status. Switch on **"I used AI for this work"** to record the tools, minutes, purpose, minutes saved and quality of the AI output.
 3. **Close Day** shows a summary to confirm. The day is then locked, the summary is emailed to your manager (copy to you) and posted to Teams.
 
 **Team Day (managers)** shows who is working, closed, auto-closed, not started, on leave or started late, with hours and AI time. Managers can reopen a closed day (with a reason) or mark someone on leave.
+
+Hours are entered and shown with two decimals (e.g. *0.30 h*); any value from 0.1 to 24 hours per entry is accepted.
 
 **Automatic jobs** (times in *Settings → Daily work*):
 
@@ -602,13 +650,41 @@ The Super Admin can change permissions under **Roles & Permissions**. Whatever t
 | 23:30 | Open days are auto-closed and flagged; people who never started are flagged |
 | after 01:00 | Nightly database backup |
 
-Nothing is sent on non-working days or holidays, and nothing is ever sent twice.
+Nothing is sent on non-working days or holidays, and nothing is ever sent twice. While a database update is waiting (*Settings → System*), the automatic jobs pause until it is run.
+</details>
+
+<details>
+<summary><b>Location at Start Day and Close Day</b></summary>
+
+*Settings → Daily work → Location at Start Day and Close Day*:
+
+| Option | What happens |
+|---|---|
+| **Off** (default) | No location is recorded. |
+| **Ask** | The browser asks for permission; the location is recorded if the person allows it. If they don't, the day still starts or closes and Team Day shows "location blocked / not available". |
+| **Required** | The day cannot be started or closed without a location. |
+
+**Where it shows:** in **Team Day**, a 📍 pin next to each start and close time — hover for the coordinates and accuracy, click to open the spot in Google Maps. An **orange** pin means the location is approximate (worse than ±1 km); a **grey** icon means it was blocked or not available; no icon means nothing was recorded (location off, or the day was closed by a manager or automatically). The person's day page shows the coordinates in full.
+
+**Things to know**
+- **HTTPS is required.** Browsers only share location on `https://` sites (and on `localhost`). If your team opens Seyal as `http://192.168…` on the office network, no location is captured — use **Ask**, not **Required**, there. On Hostinger and most hosts, switch on the free SSL certificate.
+- **Accuracy:** phones (GPS) are accurate to a few metres; laptops locate by Wi-Fi and can be several hundred metres off.
+- **It is not tamper-proof** — treat it as a strong signal, not proof.
+- **Privacy:** location is personal data. Seyal tells each person that their location is recorded and the browser asks for consent, but also tell your team in writing (for example in your HR policy) and follow your local data-protection law (in India, the DPDP Act).
+</details>
+
+<details>
+<summary><b>Team members adding their own tasks</b></summary>
+
+By default only people who manage a project (its Project Manager, the Department Head, Senior Management, Super Admin) add tasks. To let the team add their own, edit the project and switch on **Team members can add their own tasks**.
+
+Members of that project then see **Add task**. Tasks they add — and subtasks of tasks assigned to them — are **always assigned to themselves**; they cannot choose another assignee or set the weightage (it starts at 3 and the manager can change it, because weightage feeds performance scores). They can edit or delete the tasks they created for themselves.
 </details>
 
 <details>
 <summary><b>Performance, ratings, reviews and appraisals</b></summary>
 
-- **Management dashboard:** one card per project with % done, target vs **forecast** date (based on the last 4 weeks' pace) and 🟢 *On track* / 🟡 *At risk* (up to 7 days late, or overdue tasks) / 🔴 *Off track*. The margin is in *Settings → Performance*.
+- **Project Pulse** (management dashboard): one card per project with % done, target vs **forecast** date (based on the last 4 weeks' pace) and 🟢 *On track* / 🟡 *At risk* (up to 7 days late, or overdue tasks) / 🔴 *Off track*. The margin is in *Settings → Performance*.
 - **Task ratings:** when a task is done, the assignee's **direct manager** rates quality 1–5; on-time is worked out from the due date.
 - **Weekly reviews:** managers rate each direct report's week 1–5 with comments; comments can be shared, the rating stays private.
 - **Performance score (0–100)** = Σ(weightage × quality × on-time) ÷ Σ(weightage × 5) × 100. A late task counts at 70% by default (*Settings → Performance*).
@@ -625,6 +701,14 @@ On a client's page, use **Client portal access → Add a portal login**. Clients
 <summary><b>Reports and exports</b></summary>
 
 **Reports** offers Timesheets, AI usage, Project status, Performance and Attendance, filtered by period, person, department or project. Export to **Excel (.xlsx)**, **CSV** (UTF-8, opens correctly in Excel in every language) or **PDF** (a print-ready page — choose *Save as PDF* in the print dialog, which renders every language including Arabic correctly).
+
+Printouts and PDFs carry a footer on every page with your company name, the date and *Powered by Seyal - Fluxosoft*; printed Excel sheets get the same footer with page numbers, and the file details (*File → Info*) name Seyal as the author. CSV files stay plain data so they import cleanly into other tools.
+</details>
+
+<details>
+<summary><b>About page and "Powered by" credit</b></summary>
+
+Every page shows a small footer — *© year Your Company* on the left, *Powered by Seyal - Fluxosoft* on the right — as do the login page, the client portal, emails and Teams messages. **About Seyal** (in the user menu, top right) shows the version, developer, website, support link, source code, license and the bundled third-party components.
 </details>
 
 <details>
@@ -675,7 +759,7 @@ The translations were prepared by the project authors; reviews and corrections f
 
 ## Security checklist
 
-- [ ] Serve the app over **HTTPS**.
+- [ ] Serve the app over **HTTPS** (also needed for location capture, and for installing it as an app on Android).
 - [ ] Use **Apache/LiteSpeed with `AllowOverride All`** or the **Nginx rules above**, so `config/`, `storage/`, `uploads/` and source folders are not reachable from the web. Test it: `https://your-site/config/config.php` must return **403 or 404**.
 - [ ] Use a dedicated database user with rights to this database only — not `root` — on any shared or public server.
 - [ ] Keep `'debug' => false` in `config/config.php`.
@@ -705,6 +789,10 @@ Found a security issue? Please report it privately via **[fluxosoft.com/contact]
 | Excel export downloads a CSV instead | Enable the `zip` PHP extension. |
 | Locked out after wrong passwords | Wait 15 minutes, or ask an admin to set a new password. |
 | An employee can't see their score | By design, until an appraisal covering the period is **published**. |
+| Location is not captured at Start / Close Day | 1) *Settings → Daily work → Location* must be **Ask** or **Required** (it is **Off** by default). 2) The site must be opened over **https://** (or `localhost`) — browsers never share location on `http://` addresses. 3) The person must allow location in the browser (🔒 icon by the address bar → *Location → Allow*) and have location switched on in their phone. 4) Days started before the setting was switched on have no start location. In Team Day, a grey icon means the browser was asked but did not share it; no icon means location was not requested. |
+| Nobody can start their day after choosing *Required* location | The site is probably not on HTTPS (see above). Switch to **Ask** until HTTPS is set up. |
+| Team members don't see *Add task* | Switch on **Team members can add their own tasks** in the project's settings, and make sure they are on the project's team list. |
+| Other users see "The system is being updated" | A Super Admin needs to open *Settings → System* and click **Run database updates**. |
 
 Still stuck? **[Contact us for installation support](https://fluxosoft.com/contact)**.
 
@@ -722,6 +810,8 @@ pages/                 One controller per section (projects, tasks, myday, repor
 views/                 HTML templates
 lang/                  Translations (hi, ta, kn, te, ml, ar, de, es)
 assets/                CSS, JavaScript, bundled libraries and fonts
+assets/img/            Seyal logo (SVG), favicon and phone home-screen icons
+manifest.webmanifest   Lets phones install Seyal on the home screen like an app
 lib/PHPMailer/         Email library (bundled)
 tools/i18n_check.php   Translation checker
 config/config.php      Created by the installer (database login + secret key) — never commit it

@@ -24,6 +24,10 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 
 **Available in 9 languages:** English · हिन्दी (Hindi) · தமிழ் (Tamil) · ಕನ್ನಡ (Kannada) · తెలుగు (Telugu) · മലയാളം (Malayalam) · العربية (Arabic) · Deutsch (German) · Español (Spanish). Every user picks their own language. [See details](#languages).
 
+![Seyal Project Pulse dashboard showing project health (on track, at risk, off track), today's attendance, overdue tasks and weekly AI usage](docs/screenshots/project-pulse.png)
+
+*More in [Screenshots](#screenshots).*
+
 > 💬 **Need help installing or setting it up?** Send us a message at **[fluxosoft.com/contact](https://fluxosoft.com/contact)** — tell us your operating system or hosting provider and what you've tried, and we'll get back to you.
 
 ![Seyal Project Pulse dashboard](docs/screenshots/project-pulse.png)
@@ -34,6 +38,7 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 
 - [Screenshots](#screenshots)
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Requirements](#requirements)
 - [Quick start (try it in 5 minutes)](#quick-start-try-it-in-5-minutes)
 - [Installation](#installation)
@@ -129,6 +134,35 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 - Works on phones; **add it to the home screen** and it opens like an app, with its own icon
 - Collapsible side menu (icons only, names as tooltips)
 - Built-in installer, demo data, update screen, *About* page
+
+---
+
+## Screenshots
+
+All screenshots use the built-in [demo data](#demo-data).
+
+**Kanban board:** drag tasks between To Do, In Progress, In Review, Blocked and Done. Each card shows assignee, priority, due date and weightage.
+
+![Seyal Kanban board for an e-commerce website project with tasks in To Do, In Progress, Blocked and Done columns](docs/screenshots/kanban.png)
+
+**My Day:** start the day, log work per task with hours and AI usage (tool, minutes, time saved, quality), then close the day.
+
+![Seyal My Day screen with logged work entries, hours, AI time and time saved, and the Log work form](docs/screenshots/my-day.png)
+
+**Team Day:** managers see who is working, closed, late or not started, with hours, AI time and blockers for each person.
+
+![Seyal Team Day screen listing team members with status, start and close times, hours and AI time](docs/screenshots/team-day.png)
+
+**Performance:** scores from weightage × quality × on-time, with rated tasks, hours, time saved with AI and weekly review stars.
+
+![Seyal Performance table ranking team members by score, average quality, on-time rate, hours and weekly review rating](docs/screenshots/performance.png)
+
+<table>
+<tr>
+<td width="50%"><b>Org chart</b>, built from each person's "Reports to"<br><img src="docs/screenshots/org-chart.png" alt="Seyal org chart showing the reporting hierarchy from operations director to department heads and team members"></td>
+<td width="50%"><b>Every user picks their language</b>: My Day in Tamil<br><img src="docs/screenshots/my-day-tamil.png" alt="Seyal My Day screen displayed in Tamil after the day is closed"></td>
+</tr>
+</table>
 
 ---
 
@@ -814,6 +848,7 @@ assets/img/            Seyal logo (SVG), favicon and phone home-screen icons
 manifest.webmanifest   Lets phones install Seyal on the home screen like an app
 lib/PHPMailer/         Email library (bundled)
 tools/i18n_check.php   Translation checker
+docs/screenshots/      README screenshots and the GitHub social preview image (not used by the app)
 config/config.php      Created by the installer (database login + secret key) — never commit it
 uploads/               Task attachments (not web-accessible)
 storage/logs/          PHP error log

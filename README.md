@@ -70,33 +70,29 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 
 ## Screenshots
 
-*All screenshots use the built-in [demo data](#demo-data).*
+**Kanban board:** drag tasks between To Do, In Progress, In Review, Blocked and Done. Each card shows assignee, priority, due date and weightage.
+
+![Seyal Kanban board for an e-commerce website project with tasks in To Do, In Progress, Blocked and Done columns](docs/screenshots/kanban.png)
+
+**My Day:** start the day, log work per task with hours and AI usage (tool, minutes, time saved, quality), then close the day.
+
+![Seyal My Day screen with logged work entries, hours, AI time and time saved, and the Log work form](docs/screenshots/my-day.png)
+
+**Team Day:** managers see who is working, closed, late or not started, with hours, AI time and blockers for each person.
+
+![Seyal Team Day screen listing team members with status, start and close times, hours and AI time](docs/screenshots/team-day.png)
+
+**Performance:** scores from weightage × quality × on-time, with rated tasks, hours, time saved with AI and weekly review stars.
+
+![Seyal Performance table ranking team members by score, average quality, on-time rate, hours and weekly review rating](docs/screenshots/performance.png)
 
 <table>
-  <tr>
-    <td width="50%"><a href="docs/screenshots/dashboard.png"><img src="docs/screenshots/dashboard.png" alt="Dashboard"></a><br><b>Dashboard</b> — your day, your team today, open and overdue tasks, project progress</td>
-    <td width="50%"><a href="docs/screenshots/my-day.png"><img src="docs/screenshots/my-day.png" alt="My Day"></a><br><b>My Day</b> — Start Day, log work per task with AI usage, then Close Day</td>
-  </tr>
-  <tr>
-    <td><a href="docs/screenshots/team-day.png"><img src="docs/screenshots/team-day.png" alt="Team Day"></a><br><b>Team Day</b> — who is working, closed or not started, with hours, AI time and blockers</td>
-    <td><a href="docs/screenshots/kanban.png"><img src="docs/screenshots/kanban.png" alt="Kanban board"></a><br><b>Kanban board</b> — drag-and-drop tasks with priority, due date and weightage</td>
-  </tr>
-  <tr>
-    <td><a href="docs/screenshots/performance.png"><img src="docs/screenshots/performance.png" alt="Performance"></a><br><b>Performance</b> — scores from weightage × quality × on-time, plus hours and AI time saved</td>
-    <td><a href="docs/screenshots/org-chart.png"><img src="docs/screenshots/org-chart.png" alt="Org chart"></a><br><b>Org chart</b> — built automatically from each person's "Reports to"</td>
-  </tr>
-  <tr>
-    <td><a href="docs/screenshots/tamil-dashboard.png"><img src="docs/screenshots/tamil-dashboard.png" alt="Dashboard in Tamil"></a><br><b>Tamil</b> — every user picks their own language</td>
-    <td><a href="docs/screenshots/hindi-dashboard.png"><img src="docs/screenshots/hindi-dashboard.png" alt="Dashboard in Hindi"></a><br><b>Hindi</b></td>
-  </tr>
-  <tr>
-    <td><a href="docs/screenshots/arabic-dashboard.png"><img src="docs/screenshots/arabic-dashboard.png" alt="Dashboard in Arabic"></a><br><b>Arabic</b> — full right-to-left layout</td>
-    <td><a href="docs/screenshots/spanish-dashboard.png"><img src="docs/screenshots/spanish-dashboard.png" alt="Dashboard in Spanish"></a><br><b>Spanish</b></td>
-  </tr>
-  <tr>
-    <td colspan="2" align="center"><a href="docs/screenshots/mobile-my-day.png"><img src="docs/screenshots/mobile-my-day.png" alt="My Day on a phone" width="260"></a><br><b>Works on phones</b> — add it to the home screen like an app</td>
-  </tr>
+<tr>
+<td width="50%"><b>Org chart</b>, built from each person's "Reports to"<br><img src="docs/screenshots/org-chart.png" alt="Seyal org chart showing the reporting hierarchy from operations director to department heads and team members"></td>
+<td width="50%"><b>Every user picks their language</b>: My Day in Tamil<br><img src="docs/screenshots/my-day-tamil.png" alt="Seyal My Day screen displayed in Tamil after the day is closed"></td>
+</tr>
 </table>
+
 
 ---
 
@@ -135,36 +131,6 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 - Collapsible side menu (icons only, names as tooltips)
 - Built-in installer, demo data, update screen, *About* page
 
----
-
-## Screenshots
-
-All screenshots use the built-in [demo data](#demo-data).
-
-**Kanban board:** drag tasks between To Do, In Progress, In Review, Blocked and Done. Each card shows assignee, priority, due date and weightage.
-
-![Seyal Kanban board for an e-commerce website project with tasks in To Do, In Progress, Blocked and Done columns](docs/screenshots/kanban.png)
-
-**My Day:** start the day, log work per task with hours and AI usage (tool, minutes, time saved, quality), then close the day.
-
-![Seyal My Day screen with logged work entries, hours, AI time and time saved, and the Log work form](docs/screenshots/my-day.png)
-
-**Team Day:** managers see who is working, closed, late or not started, with hours, AI time and blockers for each person.
-
-![Seyal Team Day screen listing team members with status, start and close times, hours and AI time](docs/screenshots/team-day.png)
-
-**Performance:** scores from weightage × quality × on-time, with rated tasks, hours, time saved with AI and weekly review stars.
-
-![Seyal Performance table ranking team members by score, average quality, on-time rate, hours and weekly review rating](docs/screenshots/performance.png)
-
-<table>
-<tr>
-<td width="50%"><b>Org chart</b>, built from each person's "Reports to"<br><img src="docs/screenshots/org-chart.png" alt="Seyal org chart showing the reporting hierarchy from operations director to department heads and team members"></td>
-<td width="50%"><b>Every user picks their language</b>: My Day in Tamil<br><img src="docs/screenshots/my-day-tamil.png" alt="Seyal My Day screen displayed in Tamil after the day is closed"></td>
-</tr>
-</table>
-
----
 
 ## Requirements
 

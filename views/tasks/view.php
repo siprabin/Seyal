@@ -153,7 +153,7 @@ $userOption = fn($u) => '<option value="' . (int)$u['id'] . '">' . e($u['name'])
           <dt class="col-5 text-muted fw-normal"><?= e(t('Weightage')) ?></dt>
           <dd class="col-7"><?= weight_stars((int)$task['weightage']) ?> <?= (int)$task['weightage'] ?>/5</dd>
           <dt class="col-5 text-muted fw-normal"><?= e(t('Estimated hours')) ?></dt>
-          <dd class="col-7"><?= $task['estimated_hours'] !== null ? e(rtrim(rtrim($task['estimated_hours'], '0'), '.')) : '—' ?></dd>
+          <dd class="col-7"><?= $task['estimated_hours'] !== null ? e(fmt_hours((float)$task['estimated_hours'])) : '—' ?></dd>
           <?php $logged = array_sum(array_map(fn($w) => (float)$w['hours'], $worklog)); ?>
           <dt class="col-5 text-muted fw-normal"><?= e(t('Hours logged')) ?></dt>
           <dd class="col-7<?= $task['estimated_hours'] !== null && $logged > (float)$task['estimated_hours'] ? ' text-overdue' : '' ?>"><?= e(fmt_hours($logged)) ?>
@@ -202,7 +202,7 @@ $userOption = fn($u) => '<option value="' . (int)$u['id'] . '">' . e($u['name'])
           <li class="list-group-item">
             <div class="d-flex gap-2"><span class="text-muted"><?= e(fmt_date($w['work_date'])) ?></span>
               <?php if (can_view_person_day((int)$w['user_id'])): ?><a href="<?= e(url('team', ['a' => 'day', 'id' => $w['day_id']])) ?>"><?= e($w['user_name']) ?></a><?php else: ?><span><?= e($w['user_name']) ?></span><?php endif; ?>
-              <strong class="ms-auto"><?= e(fmt_hours((float)$w['hours'])) ?> <?= e(t('h')) ?></strong></div>
+              <strong class="ms-auto"><?= e(fmt_hours((float)$w['hours'])) ?></strong></div>
             <?php if ($w['ai_used']): ?><div class="ai-line"><i class="bi bi-robot"></i> <?= e(fmt_minutes((int)$w['ai_minutes'])) ?></div><?php endif; ?>
             <?php if ($w['description']): ?><div class="text-muted text-truncate" title="<?= e($w['description']) ?>"><?= e($w['description']) ?></div><?php endif; ?>
           </li>

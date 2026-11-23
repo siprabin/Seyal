@@ -102,11 +102,13 @@ $taskOption = function ($t) use ($selTask) {
             <textarea class="form-control" id="description" name="description" rows="2" placeholder="<?= e(t('Short description (required for other work)')) ?>"><?= e($v('description')) ?></textarea>
           </div>
           <div class="row g-2 mb-3">
-            <div class="col-5">
-              <label class="form-label" for="hours"><?= e(t('Hours')) ?> <span class="text-danger">*</span></label>
-              <input type="number" class="form-control" id="hours" name="hours" min="0.1" max="24" step="any" value="<?= e($v('hours') !== '' ? fmt_hours((float)$v('hours')) : '') ?>" required>
+            <div class="col-12">
+              <label class="form-label" for="hours_h"><?= e(t('Time spent')) ?> <span class="text-danger">*</span></label>
+              <?php $durName = 'hours'; $durMinutes = $src ? (int)round((float)$src['hours'] * 60) : null; $durMaxHours = 24;
+              $durQuick = [15, 30, 45, 60, 90, 120, 240]; $durSmall = false; $durLabelId = 'hours_h';
+              require APP_ROOT . '/views/partials/duration_input.php'; ?>
             </div>
-            <div class="col-7">
+            <div class="col-12">
               <label class="form-label" for="task_status"><?= e(t('Task status now')) ?></label>
               <select class="form-select" id="task_status" name="task_status">
                 <option value=""><?= e(t('Keep as is')) ?></option>
@@ -131,13 +133,17 @@ $taskOption = function ($t) use ($selTask) {
                 </div>
               </div>
               <div class="row g-2 mb-2">
-                <div class="col-6">
-                  <label class="form-label small mb-1" for="ai_minutes"><?= e(t('Minutes using AI')) ?></label>
-                  <input type="number" class="form-control form-control-sm" id="ai_minutes" name="ai_minutes" min="0" max="1440" step="1" value="<?= e($v('ai_minutes') ?: '') ?>">
+                <div class="col-sm-6">
+                  <label class="form-label small mb-1" for="ai_minutes_h"><?= e(t('Time using AI')) ?></label>
+                  <?php $durName = 'ai_minutes'; $durMinutes = $src && $src['ai_minutes'] ? (int)$src['ai_minutes'] : null; $durMaxHours = 24;
+                  $durQuick = []; $durSmall = true; $durLabelId = 'ai_minutes_h';
+                  require APP_ROOT . '/views/partials/duration_input.php'; ?>
                 </div>
-                <div class="col-6">
-                  <label class="form-label small mb-1" for="time_saved_minutes"><?= e(t('Minutes saved')) ?></label>
-                  <input type="number" class="form-control form-control-sm" id="time_saved_minutes" name="time_saved_minutes" min="0" max="1440" step="1" value="<?= e($v('time_saved_minutes') ?: '') ?>">
+                <div class="col-sm-6">
+                  <label class="form-label small mb-1" for="time_saved_minutes_h"><?= e(t('Time saved')) ?></label>
+                  <?php $durName = 'time_saved_minutes'; $durMinutes = $src && $src['time_saved_minutes'] ? (int)$src['time_saved_minutes'] : null; $durMaxHours = 24;
+                  $durQuick = []; $durSmall = true; $durLabelId = 'time_saved_minutes_h';
+                  require APP_ROOT . '/views/partials/duration_input.php'; ?>
                 </div>
               </div>
               <div class="mb-2">

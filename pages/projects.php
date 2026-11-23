@@ -174,37 +174,52 @@ switch ($action) {
     case 'board':
         $project = find_project_or_404((int)input('id'));
         $canManage = can_manage_project($project);
+        // Filters: several values each (?status[]=todo&status[]=review…); different filters combine.
+        $members = rows(
+            'SELECT u.id, u.name, u.designation FROM project_members pm JOIN users u ON u.id = pm.user_id
+             WHERE pm.project_id = ? ORDER BY u.name',
+            [$project['id']]
+        );
+        // Assignee choices: "Unassigned", the team, plus anyone else who has a task here.
+        $assigneeChoices = ['none' => t('Unassigned')] + array_column($members, 'name', 'id')
+            + array_column(rows(
+                'SELECT DISTINCT u.id, u.name FROM tasks t JOIN users u ON u.id = t.assignee_id WHERE t.project_id = ? ORDER BY u.name',
+                [$project['id']]
+            ), 'name', 'id');
         $filters = [
-            'status'   => (string)input('status', ''),
-            'assignee' => input_int('assignee'),
-            'priority' => (string)input('priority', ''),
-            'due'      => (string)input('due', ''),
+            'q'        => mb_substr(trim((string)input('q', '')), 0, 100),
+            'status'   => filter_values('status', array_keys(task_statuses())),
+            'assignee' => filter_values('assignee', array_keys($assigneeChoices)),
+            'priority' => filter_values('priority', array_keys(priorities())),
+            'due'      => filter_values('due', array_keys(due_filter_choices())),
         ];
         $where = ['t.project_id = ?'];
         $params = [$project['id']];
-        if ($filters['status'] === 'open') {
-            $where[] = "t.status <> 'done'";
-        } elseif (isset(task_statuses()[$filters['status']])) {
-            $where[] = 't.status = ?';
-            $params[] = $filters['status'];
+        if ($sql = search_filter_sql($filters['q'], $params)) {
+            $where[] = $sql;
         }
-        if ($filters['assignee'] === -1) {
-            $where[] = 't.assignee_id IS NULL';
-        } elseif ($filters['assignee']) {
-            $where[] = 't.assignee_id = ?';
-            $params[] = $filters['assignee'];
+        if ($filters['status']) {
+            $where[] = 't.status IN (' . in_list($filters['status']) . ')';
+            $params = array_merge($params, $filters['status']);
         }
-        if (isset(priorities()[$filters['priority']])) {
-            $where[] = 't.priority = ?';
-            $params[] = $filters['priority'];
+        if ($filters['assignee']) {
+            $ids = array_values(array_filter($filters['assignee'], fn($a) => $a !== 'none'));
+            $conds = [];
+            if ($ids) {
+                $conds[] = 't.assignee_id IN (' . in_list($ids) . ')';
+                $params = array_merge($params, array_map('intval', $ids));
+            }
+            if (in_array('none', $filters['assignee'], true)) {
+                $conds[] = 't.assignee_id IS NULL';
+            }
+            $where[] = '(' . implode(' OR ', $conds) . ')';
         }
-        if ($filters['due'] === 'overdue') {
-            $where[] = "t.status <> 'done' AND t.due_date < ?";
-            $params[] = today();
-        } elseif ($filters['due'] === 'week') {
-            $where[] = "t.status <> 'done' AND t.due_date BETWEEN ? AND ?";
-            $params[] = today();
-            $params[] = date('Y-m-d', strtotime('+7 days'));
+        if ($filters['priority']) {
+            $where[] = 't.priority IN (' . in_list($filters['priority']) . ')';
+            $params = array_merge($params, $filters['priority']);
+        }
+        if ($sql = due_filter_sql($filters['due'], $params)) {
+            $where[] = $sql;
         }
         $tasks = rows(
             'SELECT t.*, u.name AS assignee_name, pt.title AS parent_title,
@@ -226,16 +241,11 @@ switch ($action) {
              WHERE p.id = ?',
             [$project['id']]
         );
-        $members = rows(
-            'SELECT u.id, u.name, u.designation FROM project_members pm JOIN users u ON u.id = pm.user_id
-             WHERE pm.project_id = ? ORDER BY u.name',
-            [$project['id']]
-        );
         render($action === 'board' ? 'projects/board' : 'projects/view', [
             'pageTitle' => $project['name'],
             'project' => $project, 'info' => $info, 'tasks' => $tasks, 'members' => $members,
             'progress' => project_progress([(int)$project['id']])[(int)$project['id']],
-            'canManage' => $canManage, 'filters' => $filters, 'tab' => $action,
+            'canManage' => $canManage, 'filters' => $filters, 'tab' => $action, 'assigneeChoices' => $assigneeChoices,
             'extraScripts' => $action === 'board' ? ['vendor/sortable/Sortable.min.js', 'js/kanban.js'] : [],
         ]);
         break;

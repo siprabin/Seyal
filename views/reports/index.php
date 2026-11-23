@@ -47,8 +47,8 @@ require APP_ROOT . '/views/partials/period_filter.php';
 
 <?php if ($tab === 'timesheet' && !empty($extra['totals'])): ?>
   <div class="d-flex flex-wrap gap-2 mb-3 small">
-    <?php foreach ($extra['totals'] as $name => $h): ?><span class="badge bg-light text-dark border"><?= e($name) ?>: <?= e(fmt_hours($h)) ?> <?= e(t('h')) ?></span><?php endforeach; ?>
-    <span class="badge bg-primary"><?= e(t('Total')) ?>: <?= e(fmt_hours(array_sum($extra['totals']))) ?> <?= e(t('h')) ?></span>
+    <?php foreach ($extra['totals'] as $name => $h): ?><span class="badge bg-light text-dark border"><?= e($name) ?>: <?= e(fmt_hours($h)) ?></span><?php endforeach; ?>
+    <span class="badge bg-primary"><?= e(t('Total')) ?>: <?= e(fmt_hours(array_sum($extra['totals']))) ?></span>
   </div>
 <?php endif; ?>
 

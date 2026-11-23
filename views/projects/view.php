@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/_header.php';
-$filtered = $filters['status'] !== '' || $filters['assignee'] || $filters['priority'] !== '' || $filters['due'] !== '';
+$filtered = $filters['q'] !== '' || $filters['status'] || $filters['assignee'] || $filters['priority'] || $filters['due'];
 // Without filters, show each subtask directly under its parent.
 if (!$filtered) {
     $byParent = [];
@@ -19,39 +19,7 @@ if (!$filtered) {
     $tasks = $ordered;
 }
 ?>
-<form class="row g-2 mb-3 filters js-autosubmit" method="get">
-  <input type="hidden" name="p" value="projects"><input type="hidden" name="a" value="view"><input type="hidden" name="id" value="<?= (int)$project['id'] ?>">
-  <div class="col-6 col-md-auto">
-    <select name="status" class="form-select form-select-sm">
-      <option value=""><?= e(t('All statuses')) ?></option>
-      <option value="open"<?= selected($filters['status'], 'open') ?>><?= e(t('Not done')) ?></option>
-      <?php foreach (task_statuses() as $k => $s): ?><option value="<?= e($k) ?>"<?= selected($filters['status'], $k) ?>><?= e($s['label']) ?></option><?php endforeach; ?>
-    </select>
-  </div>
-  <div class="col-6 col-md-auto">
-    <select name="assignee" class="form-select form-select-sm">
-      <option value=""><?= e(t('Everyone')) ?></option>
-      <option value="-1"<?= selected($filters['assignee'], -1) ?>><?= e(t('Unassigned')) ?></option>
-      <?php foreach ($members as $m): ?><option value="<?= (int)$m['id'] ?>"<?= selected($filters['assignee'], $m['id']) ?>><?= e($m['name']) ?></option><?php endforeach; ?>
-    </select>
-  </div>
-  <div class="col-6 col-md-auto">
-    <select name="priority" class="form-select form-select-sm">
-      <option value=""><?= e(t('All priorities')) ?></option>
-      <?php foreach (priorities() as $k => $s): ?><option value="<?= e($k) ?>"<?= selected($filters['priority'], $k) ?>><?= e($s['label']) ?></option><?php endforeach; ?>
-    </select>
-  </div>
-  <div class="col-6 col-md-auto">
-    <select name="due" class="form-select form-select-sm">
-      <option value=""><?= e(t('Any due date')) ?></option>
-      <option value="overdue"<?= selected($filters['due'], 'overdue') ?>><?= e(t('Overdue')) ?></option>
-      <option value="week"<?= selected($filters['due'], 'week') ?>><?= e(t('Due in 7 days')) ?></option>
-    </select>
-  </div>
-  <?php if ($filtered): ?>
-    <div class="col-auto"><a class="btn btn-sm btn-link" href="<?= e(url('projects', ['a' => 'view', 'id' => $project['id']])) ?>"><?= e(t('Clear filters')) ?></a></div>
-  <?php endif; ?>
-</form>
+<?php require __DIR__ . '/_filters.php'; ?>
 
 <div class="row g-3">
   <div class="col-xl-9">
@@ -108,7 +76,7 @@ if (!$filtered) {
             </td>
             <td class="d-none d-md-table-cell"><?= badge(priorities(), $t['priority']) ?></td>
             <td class="d-none d-lg-table-cell"><?= weight_stars((int)$t['weightage']) ?></td>
-            <td class="d-none d-lg-table-cell text-end"><?= $t['estimated_hours'] !== null ? e(rtrim(rtrim($t['estimated_hours'], '0'), '.')) : '' ?></td>
+            <td class="d-none d-lg-table-cell text-end"><?= $t['estimated_hours'] !== null ? e(fmt_hours((float)$t['estimated_hours'])) : '' ?></td>
             <td class="text-nowrap<?= $overdue ? ' text-overdue' : '' ?>"><?= e(fmt_date($t['due_date'])) ?></td>
           </tr>
         <?php endforeach; ?>

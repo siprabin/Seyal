@@ -53,7 +53,7 @@ $purposes = ai_purposes();
           <?php endif; ?>
         </div>
         <div class="text-end">
-          <div class="fw-semibold"><?= e(fmt_hours((float)$en['hours'])) ?> <span class="small text-muted"><?= e(t('h')) ?></span></div>
+          <div class="fw-semibold"><?= e(fmt_hours((float)$en['hours'])) ?></div>
           <?php if ($editable): ?>
             <div class="d-flex gap-1 mt-1 justify-content-end">
               <a class="btn btn-sm btn-outline-secondary py-0" href="<?= e(url('myday', array_filter(['date' => $dayDate !== today() ? $dayDate : null, 'edit' => $en['id']]))) ?>#entry-form" title="<?= e(t('Edit')) ?>"><i class="bi bi-pencil"></i></a>

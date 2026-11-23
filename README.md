@@ -110,6 +110,8 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 **Projects & tasks**
 - Projects → tasks → subtasks with assignee, priority, **weightage (1–5)**, estimated hours, start and due dates
 - List view and drag-and-drop **Kanban board**, comments, file attachments
+- **My Tasks:** everything assigned to you across projects, with an **Add task** button (pick the project in one click) and filters — search, plus project, status, priority and due date, each allowing several choices
+- The same **multi-select filters** on each project's task list and board — search, status, assignee (including *Unassigned*), priority and due date
 - Clients, or mark a project as *Internal*
 - Optional per project: **team members add their own tasks** (always assigned to themselves; only managers assign work to others or set weightage)
 - **Audit log** of every change — changing a due date requires a reason
@@ -647,7 +649,7 @@ The Super Admin can change permissions under **Roles & Permissions**. Whatever t
 
 **Team Day (managers)** shows who is working, closed, auto-closed, not started, on leave or started late, with hours and AI time. Managers can reopen a closed day (with a reason) or mark someone on leave.
 
-Hours are entered and shown with two decimals (e.g. *0.30 h*); any value from 0.1 to 24 hours per entry is accepted.
+Time is picked as **hours + minutes** (with quick buttons such as 15 min, 30 min, 1 h) and shown the same way everywhere — e.g. *1 h 20 min* — so there is no confusion between 0.30 hours and 30 minutes. The same picker is used for AI time, time saved and task estimates. Excel/CSV exports keep decimal hours (1 h 20 min = 1.33) so totals can be calculated.
 
 **Automatic jobs** (times in *Settings → Daily work*):
 

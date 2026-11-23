@@ -57,7 +57,7 @@ switch ($tab) {
         $numeric = [4, 5, 6];
         $totals = [];
         foreach ($list as $r) {
-            $data[] = [fmt_date($r['work_date']), $r['person'], $r['project'] ?? t('Other work'), $r['task'] ?? '', (float)$r['hours'],
+            $data[] = [fmt_date($r['work_date']), $r['person'], $r['project'] ?? t('Other work'), $r['task'] ?? '', round((float)$r['hours'], 2),
                 $r['ai_used'] ? (int)$r['ai_minutes'] : 0, $r['ai_used'] ? (int)$r['time_saved_minutes'] : 0, (string)$r['description'], (string)$r['blockers']];
             $totals[$r['person']] = ($totals[$r['person']] ?? 0) + (float)$r['hours'];
         }
@@ -140,7 +140,7 @@ switch ($tab) {
             }
             $m = person_metrics((int)$p['id'], $from, $to);
             $data[] = [$p['name'], (string)$p['department_name'], $m['score'] ?? '', $m['tasks_rated'], $m['tasks_done'], $m['avg_quality'] ?? '', $m['on_time_pct'] ?? '',
-                $m['hours'], $m['ai_minutes'], $m['saved_minutes'], $m['days_worked'], $m['working_days'], $m['late_starts'], $m['review_avg'] ?? ''];
+                round((float)$m['hours'], 2), $m['ai_minutes'], $m['saved_minutes'], $m['days_worked'], $m['working_days'], $m['late_starts'], $m['review_avg'] ?? ''];
         }
         break;
 
@@ -152,7 +152,7 @@ switch ($tab) {
             $avg = row("SELECT SEC_TO_TIME(AVG(TIME_TO_SEC(TIME(started_at)))) AS s, SEC_TO_TIME(AVG(TIME_TO_SEC(TIME(closed_at)))) AS c
                         FROM work_days WHERE user_id = ? AND work_date BETWEEN ? AND ? AND status = 'closed'", [$p['id'], $from, $to]);
             $data[] = [$p['name'], $m['working_days'], $m['days_worked'], $m['late_starts'], $m['days_missed'], $m['days_leave'], $m['days_auto_closed'],
-                $avg['s'] ? date('h:i A', strtotime(substr($avg['s'], 0, 8))) : '', $avg['c'] ? date('h:i A', strtotime(substr($avg['c'], 0, 8))) : '', $m['hours']];
+                $avg['s'] ? date('h:i A', strtotime(substr($avg['s'], 0, 8))) : '', $avg['c'] ? date('h:i A', strtotime(substr($avg['c'], 0, 8))) : '', round((float)$m['hours'], 2)];
         }
         break;
 }

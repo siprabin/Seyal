@@ -31,14 +31,16 @@ function entry_form_data(): array
     $aiUsed = input('ai_used') ? 1 : 0;
     $purpose = (string)input('ai_purpose', '');
     $quality = input_int('output_quality');
+    // Times come from hours + minutes pickers; hours are stored as decimal hours (4 decimals keep minutes exact).
+    $minutes = duration_input('hours', 24 * 60 + 1) ?? 0;
     return [
         'task_id'            => input_int('task_id') ?: null,
         'description'        => trim((string)input('description', '')) ?: null,
-        'hours'              => round((float)input('hours', 0), 2),
+        'hours'              => round($minutes / 60, 4),
         'ai_used'            => $aiUsed,
-        'ai_minutes'         => $aiUsed ? max(0, (int)input('ai_minutes', 0)) : 0,
+        'ai_minutes'         => $aiUsed ? (duration_input('ai_minutes') ?? 0) : 0,
         'ai_purpose'         => $aiUsed && isset(ai_purposes()[$purpose]) ? $purpose : null,
-        'time_saved_minutes' => $aiUsed ? max(0, min(1440, (int)input('time_saved_minutes', 0))) : 0,
+        'time_saved_minutes' => $aiUsed ? (duration_input('time_saved_minutes') ?? 0) : 0,
         'output_quality'     => $aiUsed && $quality >= 1 && $quality <= 5 ? $quality : null,
         'blockers'           => trim((string)input('blockers', '')) ?: null,
     ];
@@ -112,11 +114,14 @@ switch ($action) {
         } elseif (!$d['description']) {
             $errors[] = t('Choose a task, or describe the work you did.');
         }
-        if ($d['hours'] < 0.1 || $d['hours'] > 24) {
-            $errors[] = t('Hours must be between 0.1 and 24.');
+        $entryMinutes = (int)round($d['hours'] * 60);
+        if ($entryMinutes < 1) {
+            $errors[] = t('Enter how long you worked (hours and minutes).');
+        } elseif ($entryMinutes > 24 * 60) {
+            $errors[] = t('One entry cannot be more than 24 hours.');
         }
         $otherHours = (float)val('SELECT COALESCE(SUM(hours), 0) FROM work_logs WHERE work_day_id = ? AND id <> ?', [$day['id'], $logId ?? 0]);
-        if ($otherHours + $d['hours'] > 24) {
+        if ((int)round(($otherHours + $d['hours']) * 60) > 24 * 60) {
             $errors[] = t('The total for one day cannot be more than 24 hours.');
         }
         $toolIds = array_values(array_intersect(array_map('intval', (array)($_POST['tools'] ?? [])), array_map('intval', array_column(active_ai_tools(), 'id'))));
@@ -125,8 +130,8 @@ switch ($action) {
                 $errors[] = t('Select which AI tool(s) you used.');
             }
             if ($d['ai_minutes'] < 1) {
-                $errors[] = t('Enter how many minutes you spent using AI.');
-            } elseif ($d['ai_minutes'] > $d['hours'] * 60) {
+                $errors[] = t('Enter how long you spent using AI.');
+            } elseif ($d['ai_minutes'] > $entryMinutes) {
                 $errors[] = t('Time spent with AI cannot be more than the hours of this entry.');
             }
             if (!$d['ai_purpose']) {

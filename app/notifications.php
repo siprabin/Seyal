@@ -115,7 +115,7 @@ function day_summary_card(array $day, array $entries, array $totals): array
         t('Time saved with AI') => $totals['saved_minutes'] ? fmt_minutes($totals['saved_minutes']) : '—',
     ]);
     foreach (array_slice($entries, 0, 12) as $e) {
-        $line = '• **' . ($e['task_title'] ?: t('Other work')) . '** — ' . fmt_hours((float)$e['hours']) . ' h';
+        $line = '• **' . ($e['task_title'] ?: t('Other work')) . '** — ' . fmt_hours((float)$e['hours']);
         if ($e['ai_used'] && $e['tools']) {
             $line .= ' · AI: ' . implode(', ', $e['tools']);
         }

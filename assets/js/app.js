@@ -60,6 +60,64 @@
     window.location.href = url.toString();
   });
 
+  // Hours + minutes picker (views/partials/duration_input.php): quick-pick buttons, and when only
+  // one half is chosen the other becomes 0 (so "– h 30 min" is read as 30 minutes).
+  document.querySelectorAll('.duration-input').forEach(function (box) {
+    var h = box.querySelector('[name$="_h"]');
+    var m = box.querySelector('[name$="_m"]');
+    if (!h || !m) return;
+    function fill(other) { if (other.value === '') other.value = '0'; }
+    h.addEventListener('change', function () { if (h.value !== '') fill(m); });
+    m.addEventListener('change', function () { if (m.value !== '') fill(h); });
+    box.querySelectorAll('.duration-quick').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var total = parseInt(btn.getAttribute('data-minutes'), 10) || 0;
+        h.value = String(Math.floor(total / 60));
+        m.value = String(total % 60);
+        h.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    });
+  });
+
+  // Multi-select filter dropdowns (views/partials/multi_select.php): search inside the list, clear,
+  // and apply automatically when the dropdown closes after something changed.
+  document.querySelectorAll('[data-multi-select]').forEach(function (box) {
+    var changed = false;
+    box.addEventListener('change', function (e) { if (e.target.type === 'checkbox') changed = true; });
+    var search = box.querySelector('[data-multi-search]');
+    if (search) {
+      search.addEventListener('input', function () {
+        var q = search.value.toLowerCase();
+        box.querySelectorAll('[data-multi-item]').forEach(function (item) {
+          item.style.display = item.textContent.toLowerCase().indexOf(q) === -1 ? 'none' : '';
+        });
+      });
+    }
+    var clear = box.querySelector('[data-multi-clear]');
+    if (clear) {
+      clear.addEventListener('click', function () {
+        box.querySelectorAll('input[type=checkbox]').forEach(function (c) { c.checked = false; });
+        changed = true;
+      });
+    }
+    box.addEventListener('hidden.bs.dropdown', function () {
+      var form = box.closest('form');
+      if (changed && form) form.submit();
+    });
+  });
+
+  // Type to filter a list: <input data-filter-list="#list"> hides [data-filter-item] rows that don't match.
+  document.querySelectorAll('input[data-filter-list]').forEach(function (input) {
+    var list = document.querySelector(input.getAttribute('data-filter-list'));
+    if (!list) return;
+    input.addEventListener('input', function () {
+      var q = input.value.toLowerCase();
+      list.querySelectorAll('[data-filter-item]').forEach(function (item) {
+        item.style.display = item.textContent.toLowerCase().indexOf(q) === -1 ? 'none' : '';
+      });
+    });
+  });
+
   // Enable Bootstrap tooltips.
   if (window.bootstrap) {
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) { new bootstrap.Tooltip(el); });

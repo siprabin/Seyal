@@ -14,7 +14,7 @@
     <div class="small text-muted mb-3"><?= e(t('Started')) ?> <strong><?= e(fmt_time($day['started_at'])) ?></strong> · <?= e(t('Closing at')) ?> <strong><?= e(date('h:i A')) ?></strong></div>
     <?php $editable = false; $dayDate = $day['work_date']; require APP_ROOT . '/views/partials/day_entries.php'; ?>
     <?php if ($totals['hours'] > 0 && $totals['hours'] < 4): ?>
-      <div class="alert alert-warning small py-2"><i class="bi bi-exclamation-triangle"></i> <?= e(t('Only :h hours logged. Did you forget an entry?', ['h' => fmt_hours($totals['hours'])])) ?></div>
+      <div class="alert alert-warning small py-2"><i class="bi bi-exclamation-triangle"></i> <?= e(t('Only :t logged. Did you forget an entry?', ['t' => fmt_hours($totals['hours'])])) ?></div>
     <?php endif; ?>
   </div>
 </div>

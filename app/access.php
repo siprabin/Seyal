@@ -39,6 +39,63 @@ function project_statuses(): array
     ];
 }
 
+/* ---------- Task list filters (My Tasks and a project's task list) ---------- */
+
+/** Due-date choices for the "Due" filter. */
+function due_filter_choices(): array
+{
+    return ['overdue' => t('Overdue'), 'today' => t('Today'), 'week' => t('Next 7 days'), 'later' => t('Later'), 'none' => t('No due date')];
+}
+
+/** Values of a multi-select filter (?name[]=…) that are in $allowed. */
+function filter_values(string $name, array $allowed): array
+{
+    return array_values(array_intersect(array_map('strval', (array)($_GET[$name] ?? [])), array_map('strval', $allowed)));
+}
+
+/** SQL condition for the chosen due-date choices (any of them), or null. Adds its values to $params. */
+function due_filter_sql(array $due, array &$params, string $alias = 't'): ?string
+{
+    $today = today();
+    $week = date('Y-m-d', strtotime('+7 days'));
+    $conds = [];
+    foreach ($due as $d) {
+        switch ($d) {
+            case 'overdue':
+                $conds[] = "($alias.status <> 'done' AND $alias.due_date < ?)";
+                $params[] = $today;
+                break;
+            case 'today':
+                $conds[] = "$alias.due_date = ?";
+                $params[] = $today;
+                break;
+            case 'week':
+                $conds[] = "($alias.due_date > ? AND $alias.due_date <= ?)";
+                array_push($params, $today, $week);
+                break;
+            case 'later':
+                $conds[] = "$alias.due_date > ?";
+                $params[] = $week;
+                break;
+            case 'none':
+                $conds[] = "$alias.due_date IS NULL";
+                break;
+        }
+    }
+    return $conds ? '(' . implode(' OR ', $conds) . ')' : null;
+}
+
+/** SQL condition for a title/description search, or null. Adds its values to $params. */
+function search_filter_sql(string $q, array &$params, string $alias = 't'): ?string
+{
+    if ($q === '') {
+        return null;
+    }
+    $like = '%' . addcslashes($q, '%_\\') . '%';
+    array_push($params, $like, $like);
+    return "($alias.title LIKE ? OR $alias.description LIKE ?)";
+}
+
 function badge(array $list, ?string $key): string
 {
     if (!$key || !isset($list[$key])) {

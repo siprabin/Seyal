@@ -152,10 +152,13 @@ function day_totals(array $entries): array
     return $t;
 }
 
-/** Hours always with two decimals (0.30, 1.50, 8.00), matching how they are entered. */
+/**
+ * A duration stored as decimal hours, shown as hours and minutes ("1 h 20 min", "45 min", "8 h"),
+ * so 1.3333 h never appears as a confusing decimal. Exports keep decimal hours for calculations.
+ */
 function fmt_hours(float $h): string
 {
-    return number_format($h, 2, '.', '');
+    return fmt_minutes((int)round($h * 60));
 }
 
 function fmt_minutes(int $m): string
@@ -163,7 +166,25 @@ function fmt_minutes(int $m): string
     if ($m < 60) {
         return t(':m min', ['m' => $m]);
     }
+    if ($m % 60 === 0) {
+        return t(':h h', ['h' => intdiv($m, 60)]);
+    }
     return t(':h h :m min', ['h' => intdiv($m, 60), 'm' => $m % 60]);
+}
+
+/**
+ * Minutes from an hours + minutes picker (fields "<name>_h" and "<name>_m", see views/partials/duration_input.php).
+ * Returns null when both are empty. Negative or silly values are clamped.
+ */
+function duration_input(string $name, int $maxMinutes = 1440): ?int
+{
+    $h = trim((string)input($name . '_h', ''));
+    $m = trim((string)input($name . '_m', ''));
+    if ($h === '' && $m === '') {
+        return null;
+    }
+    $total = max(0, (int)$h) * 60 + max(0, min(59, (int)$m));
+    return min($total, $maxMinutes);
 }
 
 function fmt_time(?string $dt): string

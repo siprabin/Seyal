@@ -12,7 +12,8 @@ function describe_task(array $t): array
         'status'          => $t['status'],
         'priority'        => $t['priority'],
         'weightage'       => (string)$t['weightage'],
-        'estimated_hours' => $t['estimated_hours'] === null ? null : rtrim(rtrim((string)$t['estimated_hours'], '0'), '.'),
+        // Shown as h:mm in the history (the same in every language).
+        'estimated_hours' => $t['estimated_hours'] === null ? null : sprintf('%d:%02d', intdiv((int)round((float)$t['estimated_hours'] * 60), 60), (int)round((float)$t['estimated_hours'] * 60) % 60),
         'start_date'      => $t['start_date'],
         'due_date'        => $t['due_date'],
     ];
@@ -20,7 +21,7 @@ function describe_task(array $t): array
 
 function task_form_data(): array
 {
-    $hours = input('estimated_hours', '');
+    $estMinutes = duration_input('estimated_hours', 9999 * 60);
     return [
         'title'           => mb_substr((string)input('title', ''), 0, 255),
         'description'     => (string)input('description', '') ?: null,
@@ -28,7 +29,7 @@ function task_form_data(): array
         'status'          => array_key_exists((string)input('status'), task_statuses()) ? input('status') : 'todo',
         'priority'        => array_key_exists((string)input('priority'), priorities()) ? input('priority') : 'medium',
         'weightage'       => max(1, min(5, (int)input('weightage', 3))),
-        'estimated_hours' => ($hours === '' || $hours === null) ? null : round(max(0, min(9999, (float)$hours)), 2),
+        'estimated_hours' => $estMinutes === null ? null : round($estMinutes / 60, 4),
         'start_date'      => input_date('start_date'),
         'due_date'        => input_date('due_date'),
     ];
@@ -88,6 +89,8 @@ switch ($action) {
             }
         }
         $canAssign = can_assign_tasks($project);
+        // "Add task" on My Tasks: come back there afterwards, and assign to me by default.
+        $returnTo = !$task && input('return') === 'mytasks' ? 'mytasks' : null;
 
         if (is_post()) {
             $d = task_form_data();
@@ -104,7 +107,7 @@ switch ($action) {
             }
             $back = $task
                 ? url('tasks', ['a' => 'edit', 'id' => $task['id']])
-                : url('tasks', array_filter(['a' => 'create', 'project' => $project['id'], 'parent' => $parent['id'] ?? null]));
+                : url('tasks', array_filter(['a' => 'create', 'project' => $project['id'], 'parent' => $parent['id'] ?? null, 'return' => $returnTo]));
             if ($errors) {
                 foreach ($errors as $err) {
                     flash('danger', $err);
@@ -137,7 +140,10 @@ switch ($action) {
             ensure_project_member((int)$project['id'], $d['assignee_id']);
             flash('success', $parent ? t('Subtask added.') : t('Task added.'));
             if (input('save_and_new')) {
-                redirect(url('tasks', array_filter(['a' => 'create', 'project' => $project['id'], 'parent' => $parent['id'] ?? null])));
+                redirect(url('tasks', array_filter(['a' => 'create', 'project' => $project['id'], 'parent' => $parent['id'] ?? null, 'return' => $returnTo])));
+            }
+            if ($returnTo === 'mytasks') {
+                redirect(url('mytasks'));
             }
             redirect($parent ? url('tasks', ['a' => 'view', 'id' => $parent['id']]) : url('projects', ['a' => 'view', 'id' => $project['id']]));
         }
@@ -152,9 +158,10 @@ switch ($action) {
             // Values typed in a quick-add row before "More options" (new tasks only).
             'prefill' => $task ? [] : array_filter([
                 'title'       => mb_substr((string)input('title', ''), 0, 255),
-                'assignee_id' => input_int('assignee_id') ?: null,
+                'assignee_id' => input_int('assignee_id') ?: ($returnTo === 'mytasks' ? uid() : null),
                 'due_date'    => input_date('due_date'),
             ], fn($x) => $x !== null && $x !== ''),
+            'returnTo' => $returnTo,
         ]);
         break;
 

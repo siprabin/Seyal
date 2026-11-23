@@ -49,10 +49,17 @@ $late = $project['target_date'] && $project['target_date'] < today() && !in_arra
     <?php endif; ?>
   </div>
 </div>
+<?php
+// Switching between List and Board keeps the task filters.
+$keepFilters = isset($filters) ? array_filter([
+    'q' => $filters['q'] !== '' ? $filters['q'] : null, 'status' => $filters['status'] ?: null,
+    'assignee' => $filters['assignee'] ?: null, 'priority' => $filters['priority'] ?: null, 'due' => $filters['due'] ?: null,
+]) : [];
+?>
 <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
   <ul class="nav nav-pills">
-    <li class="nav-item"><a class="nav-link<?= $tab === 'view' ? ' active' : '' ?>" href="<?= e(url('projects', ['a' => 'view', 'id' => $project['id']])) ?>"><i class="bi bi-list-task"></i> <?= e(t('List')) ?></a></li>
-    <li class="nav-item"><a class="nav-link<?= $tab === 'board' ? ' active' : '' ?>" href="<?= e(url('projects', ['a' => 'board', 'id' => $project['id']])) ?>"><i class="bi bi-kanban"></i> <?= e(t('Board')) ?></a></li>
+    <li class="nav-item"><a class="nav-link<?= $tab === 'view' ? ' active' : '' ?>" href="<?= e(url('projects', ['a' => 'view', 'id' => $project['id']] + $keepFilters)) ?>"><i class="bi bi-list-task"></i> <?= e(t('List')) ?></a></li>
+    <li class="nav-item"><a class="nav-link<?= $tab === 'board' ? ' active' : '' ?>" href="<?= e(url('projects', ['a' => 'board', 'id' => $project['id']] + $keepFilters)) ?>"><i class="bi bi-kanban"></i> <?= e(t('Board')) ?></a></li>
     <li class="nav-item"><a class="nav-link<?= $tab === 'history' ? ' active' : '' ?>" href="<?= e(url('projects', ['a' => 'history', 'id' => $project['id']])) ?>"><i class="bi bi-clock-history"></i> <?= e(t('History')) ?></a></li>
   </ul>
   <?php if (can_create_task($project)): ?>

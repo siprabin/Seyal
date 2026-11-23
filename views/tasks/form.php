@@ -3,7 +3,8 @@ $tk = $task ?? [];
 $prefill = $prefill ?? [];
 $v = fn($k, $d = '') => old($k, $tk[$k] ?? $prefill[$k] ?? $d);
 $cancel = $task ? url('tasks', ['a' => 'view', 'id' => $task['id']])
-    : ($parent ? url('tasks', ['a' => 'view', 'id' => $parent['id']]) : url('projects', ['a' => 'view', 'id' => $project['id']]));
+    : (($returnTo ?? null) === 'mytasks' ? url('mytasks')
+    : ($parent ? url('tasks', ['a' => 'view', 'id' => $parent['id']]) : url('projects', ['a' => 'view', 'id' => $project['id']])));
 $userOption = fn($u, $sel) => '<option value="' . (int)$u['id'] . '"' . selected($sel, $u['id']) . '>' . e($u['name']) . ($u['designation'] ? ' — ' . e($u['designation']) : '') . '</option>';
 ?>
 <div class="mb-2 small">
@@ -78,8 +79,10 @@ $userOption = fn($u, $sel) => '<option value="' . (int)$u['id'] . '"' . selected
       </div>
       <?php endif; ?>
       <div class="col-md-6">
-        <label class="form-label" for="estimated_hours"><?= e(t('Estimated hours')) ?></label>
-        <input type="number" class="form-control" id="estimated_hours" name="estimated_hours" min="0" max="9999" step="any" value="<?= e($v('estimated_hours') !== null ? rtrim(rtrim((string)$v('estimated_hours'), '0'), '.') : '') ?>">
+        <label class="form-label" for="estimated_hours_h"><?= e(t('Estimated time')) ?></label>
+        <?php $durName = 'estimated_hours'; $durMinutes = ($tk['estimated_hours'] ?? null) !== null ? (int)round((float)$tk['estimated_hours'] * 60) : null;
+        $durMaxHours = 9999; $durQuick = []; $durSmall = false; $durLabelId = 'estimated_hours_h';
+        require APP_ROOT . '/views/partials/duration_input.php'; ?>
       </div>
       <div class="col-6 col-md-3">
         <label class="form-label" for="start_date"><?= e(t('Start date')) ?></label>

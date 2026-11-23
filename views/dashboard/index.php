@@ -13,9 +13,9 @@
           <div class="fw-semibold"><?= e(t('My Day')) ?></div>
           <div class="small text-muted">
             <?php if (!$myDay || $myDay['status'] === 'missed'): ?><?= e(t('You have not started your day yet.')) ?>
-            <?php elseif ($myDay['status'] === 'open'): ?><?= e(t('Working since :time', ['time' => fmt_time($myDay['started_at'])])) ?> · <?= e(t(':h hours logged', ['h' => fmt_hours($myDayTotals['hours'])])) ?>
+            <?php elseif ($myDay['status'] === 'open'): ?><?= e(t('Working since :time', ['time' => fmt_time($myDay['started_at'])])) ?> · <?= e(t(':t logged', ['t' => fmt_hours($myDayTotals['hours'])])) ?>
             <?php elseif ($myDay['status'] === 'leave'): ?><?= e(t('On leave')) ?>
-            <?php else: ?><?= e(t('Day closed')) ?> · <?= e(t(':h hours logged', ['h' => fmt_hours($myDayTotals['hours'])])) ?><?php endif; ?>
+            <?php else: ?><?= e(t('Day closed')) ?> · <?= e(t(':t logged', ['t' => fmt_hours($myDayTotals['hours'])])) ?><?php endif; ?>
           </div>
         </div>
         <?php if (!$myDay || $myDay['status'] === 'missed'): ?>

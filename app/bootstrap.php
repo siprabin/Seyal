@@ -48,6 +48,7 @@ require APP_ROOT . '/app/scheduler.php';
 require APP_ROOT . '/app/analytics.php';
 require APP_ROOT . '/app/export.php';
 require APP_ROOT . '/app/backup.php';
+require APP_ROOT . '/app/tour.php';
 
 date_default_timezone_set(setting('timezone', 'Asia/Kolkata'));
 

@@ -47,7 +47,7 @@ $navBlock = function (array $items, ?string $heading = null) use ($current) {
         [$p, $icon, $label] = $item;
         $active = $current === $p ? ' active' : '';
         $badgeHtml = !empty($item[4]) ? '<span class="badge rounded-pill bg-danger ms-auto">' . (int)$item[4] . '</span>' : '';
-        echo '<a class="nav-link' . $active . '" href="' . e(url($p)) . '"><i class="bi ' . $icon . '"></i><span>' . e($label) . '</span>' . $badgeHtml . '</a>';
+        echo '<a class="nav-link' . $active . '" href="' . e(url($p)) . '" data-tour="nav-' . e($p) . '"><i class="bi ' . $icon . '"></i><span>' . e($label) . '</span>' . $badgeHtml . '</a>';
     }
 };
 ?><!doctype html>
@@ -82,21 +82,30 @@ $navBlock = function (array $items, ?string $heading = null) use ($current) {
   <div class="main">
     <header class="topbar">
       <button class="btn btn-link text-body d-lg-none px-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-label="<?= e(t('Menu')) ?>"><i class="bi bi-list fs-4"></i></button>
-      <button class="btn btn-link text-body d-none d-lg-inline-flex px-1 sidebar-toggle" type="button" data-sidebar-toggle aria-controls="sidebar" aria-expanded="true" aria-label="<?= e(t('Menu')) ?>" title="<?= e(t('Menu')) ?>"><i class="bi bi-list fs-4"></i></button>
+      <button class="btn btn-link text-body d-none d-lg-inline-flex px-1 sidebar-toggle" type="button" data-sidebar-toggle data-tour="menu-toggle" aria-controls="sidebar" aria-expanded="true" aria-label="<?= e(t('Menu')) ?>" title="<?= e(t('Menu')) ?>"><i class="bi bi-list fs-4"></i></button>
       <div class="topbar-title text-truncate"><?= e($pageTitle) ?></div>
       <div class="ms-auto d-flex align-items-center gap-2">
         <?php if (!$updatePending && daylog_enabled_for($u)): ?>
           <?php if (!$myDay || in_array($myDay['status'], ['missed'], true)): ?>
-            <form method="post" action="<?= e(url('myday', ['a' => 'start'])) ?>" class="m-0"<?= location_form_attr() ?>>
+            <form method="post" action="<?= e(url('myday', ['a' => 'start'])) ?>" class="m-0" data-tour="day"<?= location_form_attr() ?>>
               <?= csrf_field() ?><button class="btn btn-success btn-sm text-nowrap"><i class="bi bi-play-circle"></i><span class="d-none d-sm-inline"> <?= e(t('Start Day')) ?></span></button>
             </form>
           <?php elseif ($myDay['status'] === 'open'): ?>
-            <a href="<?= e(url('myday')) ?>" class="btn btn-outline-primary btn-sm text-nowrap day-pill"><span class="pulse-dot"></span><span class="d-none d-sm-inline"> <?= e(t('Working since :time', ['time' => fmt_time($myDay['started_at'])])) ?></span></a>
+            <a href="<?= e(url('myday')) ?>" class="btn btn-outline-primary btn-sm text-nowrap day-pill" data-tour="day"><span class="pulse-dot"></span><span class="d-none d-sm-inline"> <?= e(t('Working since :time', ['time' => fmt_time($myDay['started_at'])])) ?></span></a>
           <?php elseif ($myDay['status'] !== 'leave'): ?>
-            <a href="<?= e(url('myday')) ?>" class="btn btn-outline-success btn-sm text-nowrap"><i class="bi bi-check-circle"></i><span class="d-none d-sm-inline"> <?= e(t('Day closed')) ?></span></a>
+            <a href="<?= e(url('myday')) ?>" class="btn btn-outline-success btn-sm text-nowrap" data-tour="day"><i class="bi bi-check-circle"></i><span class="d-none d-sm-inline"> <?= e(t('Day closed')) ?></span></a>
           <?php endif; ?>
         <?php endif; ?>
-        <?= lang_menu() ?>
+        <div class="dropdown" data-tour="help">
+          <button class="btn btn-link text-body px-1" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="<?= e(t('Help')) ?>" title="<?= e(t('Help')) ?>"><i class="bi bi-question-circle fs-5"></i></button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <?php if (!$updatePending): ?><li><button type="button" class="dropdown-item" data-tour-start><i class="bi bi-signpost-split me-2"></i><?= e(t('Take the tour')) ?></button></li><?php endif; ?>
+            <li><a class="dropdown-item" href="<?= e(url('help')) ?>"><i class="bi bi-book me-2"></i><?= e(t('Help guide')) ?></a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item small" href="<?= e(APP_SUPPORT_URL) ?>" target="_blank" rel="noopener"><i class="bi bi-life-preserver me-2"></i><?= e(t('Contact support')) ?></a></li>
+          </ul>
+        </div>
+        <div data-tour="lang"><?= lang_menu() ?></div>
         <div class="dropdown">
           <button class="btn btn-link text-body text-decoration-none dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
             <?= avatar($u['name']) ?><span class="d-none d-md-inline"><?= e($u['name']) ?></span>
@@ -140,6 +149,10 @@ $navBlock = function (array $items, ?string $heading = null) use ($current) {
     'locationRequired' => t('Your location is needed to start or close your day. Allow location access in your browser and try again.'),
 ], JSON_UNESCAPED_UNICODE) ?>};</script>
 <script src="<?= asset('js/app.js') ?>"></script>
+<?php if (!$updatePending): ?>
+<script>window.SEYAL_TOUR = <?= json_encode(tour_config(), JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;</script>
+<script src="<?= asset('js/tour.js') ?>"></script>
+<?php endif; ?>
 <?php if (!empty($extraScripts)) foreach ($extraScripts as $s): ?>
 <script src="<?= asset($s) ?>"></script>
 <?php endforeach; ?>

@@ -140,6 +140,7 @@ Runs on Windows, Linux and macOS — on a laptop, an office server, a VPS or ord
 - **9 languages**, including right-to-left Arabic
 - Works on phones; **add it to the home screen** and it opens like an app, with its own icon
 - Collapsible side menu (icons only, names as tooltips)
+- **Guided tour** on first login (replay any time from the **?** button) and an in-app **Help guide** you can print or save as PDF
 - Built-in installer, demo data, update screen, *About* page
 
 

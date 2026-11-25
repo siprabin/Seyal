@@ -29,6 +29,7 @@ $routes = [
     'settings'    => 'settings',
     'profile'     => 'profile',
     'about'       => 'about',
+    'help'        => 'help',
     'myday'       => 'myday',
     'team'        => 'team',
     'aitools'     => 'aitools',

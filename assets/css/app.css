@@ -222,3 +222,29 @@ body { background: var(--app-bg); font-size: .925rem; }
   .print-credit { position: fixed; bottom: 0; left: 0; right: 0; margin: 0; background: #fff; }
   .print-spacer td { height: 8mm; }
 }
+/* ---------- Guided tour (assets/js/tour.js) ---------- */
+.tour-backdrop { position: fixed; inset: 0; z-index: 1080; background: transparent; }
+.tour-backdrop.dim { background: rgba(15, 23, 42, .55); }
+.tour-spot { position: fixed; z-index: 1081; border-radius: 10px; pointer-events: none; box-shadow: 0 0 0 4px rgba(245, 165, 36, .9), 0 0 0 9999px rgba(15, 23, 42, .55); transition: all .2s ease; }
+.tour-pop { position: fixed; z-index: 1082; width: min(340px, calc(100vw - 16px)); background: #fff; color: #212529; border-radius: 12px; padding: 1rem 1rem .85rem; box-shadow: 0 12px 32px rgba(0, 0, 0, .25); }
+.tour-pop.centered { left: 50% !important; top: 50% !important; transform: translate(-50%, -50%); }
+.tour-close { position: absolute; top: .7rem; inset-inline-end: .7rem; }
+.tour-progress { margin-bottom: .25rem; }
+.tour-title { padding-inline-end: 1.5rem; }
+.tour-dots { display: flex; gap: 4px; margin-bottom: .75rem; }
+.tour-dots span { width: 6px; height: 6px; border-radius: 50%; background: #d5dbe3; }
+.tour-dots span.on { background: var(--app-sidebar-bg); width: 16px; border-radius: 3px; }
+@media (prefers-reduced-motion: reduce) { .tour-spot { transition: none; } }
+
+/* ---------- Help guide ---------- */
+.help-guide h2 { font-size: 1.15rem; margin-top: 2rem; padding-top: .5rem; border-top: 1px solid #e3e6ea; scroll-margin-top: 70px; }
+.help-guide h2:first-child { margin-top: 0; border-top: 0; }
+.help-guide h3 { font-size: 1rem; margin-top: 1.25rem; }
+.help-guide kbd { background: #eef1f5; color: #212529; border: 1px solid #d5dbe3; font-size: .8em; }
+.help-toc a { display: block; padding: .2rem 0; text-decoration: none; }
+@media (min-width: 992px) { .help-toc { position: sticky; top: 72px; } }
+@media print {
+  .sidebar, .topbar, .app-footer, .help-toc, .help-actions { display: none !important; }
+  .help-guide { font-size: 11pt; }
+  .help-guide h2 { break-after: avoid; }
+}

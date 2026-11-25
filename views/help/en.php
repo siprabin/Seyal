@@ -114,7 +114,7 @@ $who = fn(string $label) => '<span class="badge bg-light text-dark border fw-nor
 
 <h2 id="admin">For administrators <?= $who('Admins') ?></h2>
 <ul>
-  <li><strong>Users</strong> — add people, set their role, department and <em>Reports to</em> (this builds the hierarchy and decides who rates whom). Deactivate rather than delete, to keep history. <strong>Org Chart</strong> shows the structure.</li>
+  <li><strong>Users</strong> — add people, set their role, department and <em>Reports to</em> (this builds the hierarchy and decides who rates whom). Deactivate rather than delete, to keep history. <strong>Org Chart</strong> shows the structure. By default Team Members don't see these two menus; change this under <em>Roles &amp; Permissions</em>.</li>
   <li><strong>Roles &amp; Permissions</strong> — what each role may do.</li>
   <li><strong>AI Tools</strong> — the list of tools people can pick.</li>
   <li><strong>Settings:</strong>

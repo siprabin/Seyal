@@ -44,7 +44,7 @@ function default_role_permissions(): array
         ROLE_SENIOR    => ['team.view_all', 'projects.view_all', 'projects.create', 'projects.manage_all', 'clients.view', 'clients.manage', 'users.view', 'audit.view', 'reports.view'],
         ROLE_DEPT_HEAD => ['team.view_department', 'projects.view_department', 'projects.create', 'projects.manage_all', 'clients.view', 'clients.manage', 'users.view', 'reports.view'],
         ROLE_MANAGER   => ['projects.create', 'clients.view', 'clients.manage', 'users.view', 'reports.view'],
-        ROLE_MEMBER    => ['users.view'],
+        ROLE_MEMBER    => [],
         ROLE_CLIENT    => [],
     ];
 }
